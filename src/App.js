@@ -3,23 +3,24 @@ import $ from 'jquery'
 import './App.css';
 
 function App() {
+  //create variables
   const [ data, setData ] = React.useState("");
-  const [ lat , setLat ] = React.useState("50.073658")
-  const [ long , setLong ] = React.useState("14.418540")
+  const [ latLong, setLangLong ] = React.useState({lat:"50.073658", long:"14.418540"})
   const [ city , setCity ] = React.useState("")
   const [ cityValue, setCityValue] = React.useState("")
   
+  //work with yr api
   React.useEffect(() => {
     const getData = async () => {
-      const res = await fetch(`https://api.met.no/weatherapi/locationforecast/2.0/compact?lat=${lat}&lon=${long}`)
+      const res = await fetch(`https://api.met.no/weatherapi/locationforecast/2.0/compact?lat=${latLong.lat}&lon=${latLong.long}`)
       const resData = await res.json();
       setData(resData)
     }
     
     getData();
-  }, [lat, long])
+  }, [latLong])
 
-  
+  //work with geolocation api
   React.useEffect(() => {
     $.ajax({
       method: 'GET',
@@ -28,30 +29,27 @@ function App() {
       contentType: 'application/json',
       success: function(result) {
         console.log(result[0]);
-        setLat(result[0].latitude)
-        setLong(result[0].longitude)
+        setLangLong({lat: result[0].latitude, long:result[0].longitude})
       },
       error: function ajaxError(jqXHR) {
         console.error('Error: ', jqXHR.responseText);
       }
     });
   }, [city])
-  //console.log(lat)
-  //console.log(long)
-  
 
+  //changing values in input
   const changeCityValue = (e) => {
     setCityValue(e.target.value)
   }
 
+  //change city after press enter
   const changeCity = (e) => {
     if (e.key === "Enter")
         setCity(e.target.value)
     }
 
   console.log(data)
-  //console.log(cityValue)
-  //console.log(city)
+  //console.log(latLong)
 
   return (
     <div className="App">
