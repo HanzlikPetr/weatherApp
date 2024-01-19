@@ -1,16 +1,16 @@
 import React from 'react';
 import $ from 'jquery'
 import './App.css';
-import City from './Component/Name';
-import Temperature from './Component/Temperature';
+import City from './Component/City';
+//import Temperature from './Component/Temperature';
 
 function App() {
   //create variables
   const [ data, setData ] = React.useState("");
   const [ latLong, setLangLong ] = React.useState({lat:"50.073658", long:"14.418540"})
-  const [ cityName , setCityName ] = React.useState("")
+  const [ cityName , setCityName ] = React.useState("Prague")
   const [ cityValue , setCityValue] = React.useState("")
-  const [ city , setCity] = React.useState({});
+  const [ city , setCity] = React.useState("");
   
   //work with yr api
   React.useEffect(() => {
@@ -52,25 +52,15 @@ function App() {
         setCityName(e.target.value)
     }
 
-  
-    const temperature = data.timeseries.map((e, i) => {
-      return(
-        <Temperature id={i} {...e}/>
-      )
-  });
 
-  console.log(data !== "")
-  console.log(data.timeseries)
-  //console.log(city)
-  //console.log(latLong)
-
-  return (
-    <div className="App">
-      <input type='text' onChange={changeCityValue} value={cityValue} onKeyDown={changeCity}/>
-      <City {...city}/>
-      {temperature}
-    </div>
-  );
+  if(data !== "" && city !== ""){
+    return (
+      <div className="App">
+        <input type='text' onChange={changeCityValue} value={cityValue} onKeyDown={changeCity}/>
+        <City city={city} temperature={data.timeseries[0]}/>
+      </div>
+    );
+  }
 }
 
 export default App;
