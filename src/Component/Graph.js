@@ -6,8 +6,6 @@ export default function Graph({ temperature }) {
   let dataDay = [];
   let dataTime = [];
 
-  console.log(temperature);
-
   for (let i = 0; i <= 61; i++) {
     dataTime.push(new Date(temperature.timeseries[i].time).getUTCHours());
     dataDay.push(
