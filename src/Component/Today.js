@@ -1,0 +1,107 @@
+import React from "react";
+import Chart from "chart.js/auto";
+import { Line } from "react-chartjs-2";
+import "./Today.css"
+
+export default function Today({ temperature }) {
+  const [type, setType] = React.useState("air_temperature");
+  const [name, setName] = React.useState(
+    "Temperature (" + temperature.meta.units[type] + ")"
+  );
+
+  let dataDay = [];
+  let dataTime = [];
+
+  console.log(temperature);
+
+  for (let i = 0; i <= 61; i++) {
+    const pom = new Date(temperature.timeseries[i].time);
+    dataTime.push(
+      pom.getDate() + ". " + pom.getMonth() + 1 + ". " + pom.getHours() + ":00"
+    );
+    dataDay.push(temperature.timeseries[i].data.instant.details[type]);
+  }
+
+  let windDirection;
+  if (
+    temperature.timeseries[0].data.instant.details.wind_from_direction <= 90
+  ) {
+    windDirection = "East";
+  } else if (
+    temperature.timeseries[0].data.instant.details.wind_from_direction <= 180
+  ) {
+    windDirection = "South";
+  } else if (
+    temperature.timeseries[0].data.instant.details.wind_from_direction <= 270
+  ) {
+    windDirection = "West";
+  } else {
+    windDirection = "North";
+  }
+
+  const changeType = (e) => {
+    document.querySelector(".div-graph .active").classList.remove("active")
+    e.target.classList.add("active")
+    setType(e.target.className.split(" ")[0]);
+    setName(
+      e.target.innerText +
+        " (" +
+        temperature.meta.units[e.target.className.split(" ")[0]] +
+        ")"
+    );
+    
+
+  };
+
+  return (
+    <>
+      <div>
+        <p>{temperature.timeseries[0].data.instant.details.wind_speed}</p>
+        <p>{windDirection}</p>
+        <p>
+          {
+            temperature.timeseries[0].data.instant.details
+              .air_pressure_at_sea_level
+          }
+        </p>
+        <p>
+          {temperature.timeseries[0].data.instant.details.relative_humidity}
+        </p>
+        <p>
+          {temperature.timeseries[0].data.instant.details.cloud_area_fraction}
+        </p>
+      </div>
+      <div className="div-graph">
+        <div className="selectType">
+          <p className="air_temperature active" onClick={changeType}>
+            Temperature
+          </p>
+          <p className="wind_speed" onClick={changeType}>
+            Wind speed
+          </p>
+          <p className="relative_humidity" onClick={changeType}>
+            Humidity
+          </p>
+          <p className="cloud_area_fraction" onClick={changeType}>
+            Cloud area fraction
+          </p>
+        </div>
+        <Line
+          datasetIdKey="id"
+          data={{
+            labels: dataTime,
+            datasets: [
+              {
+                label: name,
+                data: dataDay,
+                borderWidth: 1,
+                fill: false,
+                tension: 0.5,
+              },
+            ],
+          }}
+        />
+      </div>
+    </>
+  );
+}

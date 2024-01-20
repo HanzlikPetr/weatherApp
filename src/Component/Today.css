@@ -1,0 +1,22 @@
+.div-graph{
+    width: 95%;
+    border: 5px solid #00a2ff; 
+    border-radius: 15px;
+  }
+
+  .selectType{
+    display: flex;
+    justify-content: space-around;
+  }
+
+  .selectType p{
+    text-align: center;
+    cursor: pointer;
+    width: 100%;
+    padding: 1% 0;
+    font-weight: 700;
+  }
+
+  .selectType .active{
+    background-color: #00a2ff;
+  }

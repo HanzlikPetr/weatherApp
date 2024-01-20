@@ -2,7 +2,7 @@ import React from "react";
 import $ from "jquery";
 import "./App.css";
 import City from "./Component/City";
-import Graph from "./Component/Graph";
+import Today from "./Component/Today";
 //import Temperature from './Component/Temperature';
 
 function App() {
@@ -15,6 +15,7 @@ function App() {
   const [cityName, setCityName] = React.useState("Prague");
   const [cityValue, setCityValue] = React.useState("");
   const [city, setCity] = React.useState("");
+  const [day, setDay] = React.useState("today")
 
   //work with yr api
   React.useEffect(() => {
@@ -37,7 +38,7 @@ function App() {
       headers: { "X-Api-Key": "A8i5MFMdPVPqf23nTuS6rA==GAha0TyZEdBjlWRc" },
       contentType: "application/json",
       success: function (result) {
-        console.log(result[0]);
+        //console.log(result[0]);
         setCity(result[0]);
         setCityValue(result[0].name + ", " + result[0].country);
         setLangLong({ lat: result[0].latitude, long: result[0].longitude });
@@ -66,7 +67,12 @@ function App() {
     setCityName(document.querySelector(".city").value);
   };
 
-  if (data !== "" && city !== "") {
+  const changeDay = (e) => {
+    setDay(e.target.classList.contains("today") ? "today": "nextWeek")
+  }
+
+
+  if (city !== "") {
     return (
       <div className="App">
         <header>
@@ -109,7 +115,11 @@ function App() {
           <City city={city} temperature={data.timeseries[0]} />
         </header>
         <main>
-          <Graph temperature={data} />
+          <div className="day">
+            <h2 className={day === "today" ? 'today active' : "today"} onClick={changeDay}>Today</h2>
+            <h2 className={day === "today" ? "nextWeek" :  'nextWeek active'} onClick={changeDay}>Next week</h2>
+          </div>
+          {day === "today" && <Today temperature={data} />}
         </main>
       </div>
     );
