@@ -7,7 +7,8 @@ export default function Graph({ temperature }) {
   let dataTime = [];
 
   for (let i = 0; i <= 61; i++) {
-    dataTime.push(new Date(temperature.timeseries[i].time).getUTCHours());
+    const pom = new Date(temperature.timeseries[i].time)
+    dataTime.push(pom.getDate() + '. ' + pom.getMonth() + 1 + ' ' + pom.getHours() + ':00');
     dataDay.push(
       temperature.timeseries[i].data.instant.details.air_temperature
     );
