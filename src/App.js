@@ -55,11 +55,10 @@ function App() {
 
   //change city after press enter
   const changeCity = (e) => {
-    if (e.key === "Enter"){
+    if (e.key === "Enter") {
       setCity("");
       setCityName(e.target.value);
-    } 
-      
+    }
   };
 
   const changeCityClick = () => {
@@ -112,6 +111,15 @@ function App() {
         <main>
           <Graph temperature={data} />
         </main>
+      </div>
+    );
+  } else {
+    return (
+      <div className="lds-ring">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
       </div>
     );
   }
