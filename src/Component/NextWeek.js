@@ -15,6 +15,7 @@ export default function NextWeek({ temperature }) {
   days.push(temperature.timeseries[68]);
   days.push(temperature.timeseries[72]);
 
+  console.log(days)
   const changeDay = (e) => {
     setIndexDay(e.className)
     }
@@ -33,14 +34,21 @@ export default function NextWeek({ temperature }) {
 
 function Day({ data, id, changeDay}) {
   const date = new Date(data.time);
+let pom;
 
+  try {
+    pom = data.data.next_12_hours.summary.symbol_code
+  } catch (error) {
+    console.log(error)
+    pom = data.data.next_1_hours.summary.symbol_code
+  }
   
 
   return (
     <div className={id} onClick={(e) => changeDay(e.target)}>
       <img className={id}
         src={require("../images/" +
-          imagesData[data.data.next_12_hours.summary.symbol_code] +
+          imagesData[pom] +
           ".svg")}
         alt=""
       />
