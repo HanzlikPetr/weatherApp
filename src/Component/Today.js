@@ -12,8 +12,6 @@ export default function Today({ temperature }) {
   let dataDay = [];
   let dataTime = [];
 
-  console.log(temperature);
-
   for (let i = 0; i <= 61; i++) {
     const pom = new Date(temperature.timeseries[i].time);
     dataTime.push(

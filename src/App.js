@@ -3,6 +3,7 @@ import $ from "jquery";
 import "./App.css";
 import City from "./Component/City";
 import Today from "./Component/Today";
+import NextWeek from "./Component/NextWeek";
 //import Temperature from './Component/Temperature';
 
 function App() {
@@ -120,6 +121,7 @@ function App() {
             <h2 className={day === "today" ? "nextWeek" :  'nextWeek active'} onClick={changeDay}>Next week</h2>
           </div>
           {day === "today" && <Today temperature={data} />}
+          {day === "nextWeek" && <NextWeek temperature={data}/>} 
         </main>
       </div>
     );

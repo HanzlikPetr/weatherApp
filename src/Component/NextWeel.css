@@ -1,0 +1,14 @@
+.days{
+    margin-top: 5%;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.days div{
+    background-color: #FFF;
+    padding: 2%;
+    border-radius: 15px;
+    cursor: pointer;
+}
