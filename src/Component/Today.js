@@ -55,21 +55,33 @@ export default function Today({ temperature }) {
 
   return (
     <>
-      <div>
-        <p>{temperature.timeseries[0].data.instant.details.wind_speed}</p>
-        <p>{windDirection}</p>
-        <p>
+      <div className="details">
+        <div className="wind">
+          <p>Wind</p>
+          <h3>{temperature.timeseries[0].data.instant.details.wind_speed} m/s</h3>
+          <p>{windDirection}</p>
+        </div>
+        <div className="pressure">
+        <p>Pressure</p>
+        <h3>
           {
             temperature.timeseries[0].data.instant.details
               .air_pressure_at_sea_level
-          }
-        </p>
-        <p>
-          {temperature.timeseries[0].data.instant.details.relative_humidity}
-        </p>
-        <p>
-          {temperature.timeseries[0].data.instant.details.cloud_area_fraction}
-        </p>
+          } hpa
+        </h3>
+        </div>
+        <div>
+          <p>Humidity</p>
+        <h3 className="humidity">
+          {temperature.timeseries[0].data.instant.details.relative_humidity} %
+        </h3>
+        </div>
+        <div className="cloudFraction">
+        <p>Cloud area fraction</p>
+        <h3>
+          {temperature.timeseries[0].data.instant.details.cloud_area_fraction} %
+        </h3>
+        </div>
       </div>
       <div className="div-graph">
         <div className="selectType">
