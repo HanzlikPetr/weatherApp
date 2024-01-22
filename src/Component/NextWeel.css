@@ -1,14 +1,17 @@
 .days{
     margin-top: 5%;
-    width: 100%;
-    display: flex;
+    margin-left: 5%;
+    width: 90%;
+    display: inline-flex;
     flex-wrap: wrap;
-    justify-content: space-around;
 }
 
 .days div{
-    background-color: #FFF;
     padding: 2%;
     border-radius: 15px;
     cursor: pointer;
+    margin-bottom: 5%;
+    margin-right: 3rem;
+    row-gap: 10rem;
+    
 }

@@ -3,7 +3,7 @@ import Chart from "chart.js/auto";
 import { Line } from "react-chartjs-2";
 import "./Today.css"
 
-export default function Today({ temperature }) {
+export default function Today({ temperature , theme}) {
   const [type, setType] = React.useState("air_temperature");
   const [name, setName] = React.useState(
     "Temperature (" + temperature.meta.units[type] + ")"
@@ -83,16 +83,16 @@ export default function Today({ temperature }) {
       </div>
       <div className="div-graph">
         <div className="selectType">
-          <p className="air_temperature active" onClick={changeType}>
+          <p className={"air_temperature active darker-" + theme} onClick={changeType}>
             Temperature
           </p>
-          <p className="wind_speed" onClick={changeType}>
+          <p className={"wind_speed darker-"+ theme} onClick={changeType}>
             Wind speed
           </p>
-          <p className="relative_humidity" onClick={changeType}>
+          <p className={"relative_humidity darker-" + theme} onClick={changeType}>
             Humidity
           </p>
-          <p className="cloud_area_fraction" onClick={changeType}>
+          <p className={"cloud_area_fraction darker-" + theme}  onClick={changeType}>
             Cloud area fraction
           </p>
         </div>

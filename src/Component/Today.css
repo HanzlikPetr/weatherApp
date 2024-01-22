@@ -1,5 +1,5 @@
 .div-graph{
-    width: 95%;
+    width: 90%;
     border: 5px solid #00a2ff; 
     border-radius: 15px;
   }
@@ -20,6 +20,14 @@
 
   .selectType .active{
     background-color: #00a2ff;
+  }
+
+  .air_temperature{
+    border-top-left-radius: 8px;
+  }
+
+  .cloud_area_fraction{
+    border-top-right-radius: 8px;
   }
 
   .details{

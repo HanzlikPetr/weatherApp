@@ -17,6 +17,7 @@ function App() {
   const [cityValue, setCityValue] = React.useState("");
   const [city, setCity] = React.useState("");
   const [day, setDay] = React.useState("today")
+  const [theme, setTheme] = React.useState("dark")
 
   //work with yr api
   React.useEffect(() => {
@@ -57,26 +58,44 @@ function App() {
 
   //change city after press enter
   const changeCity = (e) => {
-    if (e.key === "Enter") {
+    if (e.key === "Enter" && document.querySelector(".city").value.split(",")[0]) {
       setCity("");
       setCityName(e.target.value);
     }
   };
 
   const changeCityClick = () => {
-    setCity("");
-    setCityName(document.querySelector(".city").value);
+    console.log(cityName)
+    if(cityName !== document.querySelector(".city").value.split(",")[0]){
+      setCity("");
+      setCityName(document.querySelector(".city").value.split(",")[0]);
+    }
   };
 
   const changeDay = (e) => {
     setDay(e.target.classList.contains("today") ? "today": "nextWeek")
   }
 
+  const changeTheme = () => {
+    setTheme((prev) => {
+      const light = document.querySelectorAll("." + prev);
+      const darkerLight = document.querySelectorAll(".darker-" + prev);
 
-  if (city !== "") {
+      light.forEach(e => e.classList.remove(prev))
+      darkerLight.forEach(e => e.classList.remove("darker-" + prev))
+
+      const newTheme = prev === "light" ? "dark" : "light";
+
+      light.forEach(e => e.classList.add(newTheme))
+      darkerLight.forEach(e => e.classList.add("darker-" + newTheme))
+      return newTheme;
+    })
+  }
+
+  if (city !== "" && data !== "") {
     return (
       <div className="App">
-        <header>
+        <header className={theme}>
           <div className="input-search">
             <input
               className="city"
@@ -115,19 +134,22 @@ function App() {
           </div>
           <City city={city} temperature={data.timeseries[0]} />
         </header>
-        <main>
+        <main className={"darker-"+theme}>
           <div className="day">
-            <h2 className={day === "today" ? 'today active' : "today"} onClick={changeDay}>Today</h2>
-            <h2 className={day === "today" ? "nextWeek" :  'nextWeek active'} onClick={changeDay}>Next week</h2>
+            <div className="todayNextWeeek">
+              <h2 className={day === "today" ? 'today darker-' + theme : "today  noactive darker-" + theme} onClick={changeDay}>Today</h2>
+              <h2 className={day === "today" ? "nextWeek  noactive darker-"+theme :  'nextWeek darker-'+ theme} onClick={changeDay}>Next week</h2>
+            </div>
+            <h3 onClick={changeTheme} className="switchTheme">{theme.charAt(0).toUpperCase() + theme.slice(1)} mode</h3>
           </div>
-          {day === "today" && <Today temperature={data} />}
-          {day === "nextWeek" && <NextWeek temperature={data}/>} 
+          {day === "today" && <Today temperature={data} theme={theme}/>}
+          {day === "nextWeek" && <NextWeek temperature={data} theme={theme}/>} 
         </main>
       </div>
     );
   } else {
     return (
-      <div className="lds-ring">
+      <div className={"lds-ring " + theme}>
         <div></div>
         <div></div>
         <div></div>
