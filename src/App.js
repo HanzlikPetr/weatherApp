@@ -140,7 +140,7 @@ function App() {
               <h2 className={day === "today" ? 'today darker-' + theme : "today  noactive darker-" + theme} onClick={changeDay}>Today</h2>
               <h2 className={day === "today" ? "nextWeek  noactive darker-"+theme :  'nextWeek darker-'+ theme} onClick={changeDay}>Next week</h2>
             </div>
-            <h3 onClick={changeTheme} className="switchTheme">{theme.charAt(0).toUpperCase() + theme.slice(1)} mode</h3>
+            <h3 onClick={changeTheme} onTouchMove={changeTheme} className="switchTheme">{theme !== "light" ? "Light" : "Dark"} mode</h3>
           </div>
           {day === "today" && <Today temperature={data} theme={theme}/>}
           {day === "nextWeek" && <NextWeek temperature={data} theme={theme}/>} 
