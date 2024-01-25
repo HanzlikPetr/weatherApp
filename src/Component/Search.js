@@ -1,7 +1,6 @@
 import React from "react";
 import "./style/Search.css";
 import $ from "jquery";
-import Loading from "./Loading";
 
 export default function Search({ cityName , cityValueProp, func}) {
     const [cityValue, setCityValue] = React.useState(cityValueProp);

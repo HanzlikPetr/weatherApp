@@ -3,7 +3,7 @@ import "chart.js/auto";
 import { Line } from "react-chartjs-2";
 import "./style/Today.css"
 
-export default function Today({ temperature , theme}) {
+export default function Today({ temperature , theme, time}) {
   const [type, setType] = React.useState("air_temperature");
   const [name, setName] = React.useState(
     "Temperature (" + temperature.meta.units[type] + ")"
@@ -12,8 +12,9 @@ export default function Today({ temperature , theme}) {
   let dataDay = [];
   let dataTime = [];
 
+  const pom = new Date(time.datetime);
   for (let i = 0; i <= 61; i++) {
-    const pom = new Date(temperature.timeseries[i].time);
+    pom.setHours(pom.getHours() + 1)
     dataTime.push(
       pom.getDate() + ". " + pom.getMonth() + 1 + ". " + pom.getHours() + ":00"
     );

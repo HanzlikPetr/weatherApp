@@ -20,6 +20,7 @@ function App() {
   const [day, setDay] = React.useState("today")
   const [theme, setTheme] = React.useState("light")
   const [cityValue, setCityValue] = React.useState("");
+  const [time, setTime] = React.useState("")
 
   //work with yr api
   React.useEffect(() => {
@@ -37,6 +38,19 @@ function App() {
   //work with geolocation api
   React.useEffect(() => {
     $.ajax({
+      method: 'GET',
+      url: 'https://api.api-ninjas.com/v1/worldtime?city=' + cityName,
+      headers: { 'X-Api-Key': "A8i5MFMdPVPqf23nTuS6rA==GAha0TyZEdBjlWRc"},
+      contentType: 'application/json',
+      success: function(result) {
+          setTime(result);
+      },
+      error: function ajaxError(jqXHR) {
+          console.error('Error: ', jqXHR.responseText);
+      }
+    })
+
+    $.ajax({
       method: "GET",
       url: "https://api.api-ninjas.com/v1/geocoding?city=" + cityName,
       headers: { "X-Api-Key": "A8i5MFMdPVPqf23nTuS6rA==GAha0TyZEdBjlWRc" },
@@ -50,7 +64,9 @@ function App() {
       error: function ajaxError(jqXHR) {
         console.error("Error: ", jqXHR.responseText);
       },
+      
     });
+
   }, [cityName]);
 
 
@@ -85,7 +101,7 @@ function App() {
       <div className="App">
         <header className={theme}>
           <Search cityName={cityName} cityValueProp={cityValue} func={changeCity}/>
-          <City city={city} temperature={data.timeseries[0]} />
+          <City city={city} temperature={data.timeseries[0]}  time={time}/>
         </header>
         <main className={"darker-"+theme}>
           <div className="day">
@@ -95,8 +111,8 @@ function App() {
             </div>
             <h3 onClick={changeTheme} onTouchMove={changeTheme} className="switchTheme">{theme !== "light" ? "Light" : "Dark"} mode</h3>
           </div>
-          {day === "today" && <Today temperature={data} theme={theme}/>}
-          {day === "nextWeek" && <NextWeek temperature={data} theme={theme}/>} 
+          {day === "today" && <Today temperature={data} theme={theme} time={time}/>}
+          {day === "nextWeek" && <NextWeek temperature={data} theme={theme} time={time}/>} 
         </main>
       </div>
     );

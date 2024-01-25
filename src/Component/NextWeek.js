@@ -2,24 +2,21 @@ import React from "react";
 import imagesData from "../data";
 import "./style/NextWeek.css";
 
-export default function NextWeek({ temperature, theme }) {
+export default function NextWeek({ temperature, theme, time }) {
   const days = [];
   const [indexDay, setIndexDay] = React.useState(0);
   
+  console.log(temperature)
 
-  let pom = new Date(temperature.timeseries[0].time).getDate();
+  let pom = parseInt(time.day);
   temperature.timeseries.forEach(element => {
     const dayEl = new Date(element.time)
 
-    if(dayEl.getDate() !== pom){
-      if((dayEl.getHours() - 1).toString() === "12"){
+    if(dayEl.getDate() !== pom && (dayEl.getHours() - 1).toString() === "12"){
         pom = dayEl.getDate();
         days.push(element);
-      }
     }
   });
-
-  console.log(temperature)
 
   const changeDay = (e) => {
     setIndexDay(e.className.split(" ")[0][1]);
