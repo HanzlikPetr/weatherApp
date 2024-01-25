@@ -3,34 +3,33 @@ import imagesData from "../data";
 import "./style/NextWeek.css";
 
 export default function NextWeek({ temperature, theme }) {
-  console.log(temperature)
-  const [indexDay, setIndexDay] = React.useState(0);
   const days = [];
-
+  const [indexDay, setIndexDay] = React.useState(0);
+  
 
   let pom = new Date(temperature.timeseries[0].time).getDate();
   temperature.timeseries.forEach(element => {
-    console.log(element)
     const dayEl = new Date(element.time)
 
-
     if(dayEl.getDate() !== pom){
-      if((dayEl.getHours() - 1).toString() === "6" || (dayEl.getHours() - 1).toString() === "12"){
+      if((dayEl.getHours() - 1).toString() === "12"){
         pom = dayEl.getDate();
         days.push(element);
       }
     }
   });
 
-  console.log(days)
+  console.log(temperature)
 
   const changeDay = (e) => {
-    setIndexDay(e.className.split(" ")[0]);
+    setIndexDay(e.className.split(" ")[0][1]);
   };
 
   const day = days.map((e, i) => {
     return <Day data={e} key={i} id={i} changeDay={changeDay} theme={theme} />;
   });
+
+  
 
   return (
     <>
@@ -52,14 +51,14 @@ function Day({ data, id, changeDay, theme }) {
   }
 
   return (
-    <div className={id + " " + theme} onClick={(e) => changeDay(e.target)}>
+    <div className={"i"+id + " " + theme} onClick={(e) => changeDay(e.target)}>
       <img
-        className={id}
+        className={"i"+id}
         src={require("../images/" + imagesData[pom] + ".svg")}
         alt=""
       />
-      <h1 className={id}>{data.data.instant.details.air_temperature + "°C"}</h1>
-      <h3 className={id}>
+      <h1 className={"i"+id}>{data.data.instant.details.air_temperature + "°C"}</h1>
+      <h3 className={"i"+id}>
         {date.getDate() +
           ". " +
           (date.getMonth() + 1) + 

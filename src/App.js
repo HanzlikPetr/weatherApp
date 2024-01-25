@@ -5,7 +5,8 @@ import City from "./Component/City";
 import Today from "./Component/Today";
 import NextWeek from "./Component/NextWeek";
 import Search from "./Component/Search";
-//import Temperature from './Component/Temperature';
+import Loading from "./Component/Loading";
+
 
 function App() {
   //create variables
@@ -17,7 +18,7 @@ function App() {
   const [cityName, setCityName] = React.useState("Prague");
   const [city, setCity] = React.useState("");
   const [day, setDay] = React.useState("today")
-  const [theme, setTheme] = React.useState("dark")
+  const [theme, setTheme] = React.useState("light")
   const [cityValue, setCityValue] = React.useState("");
 
   //work with yr api
@@ -90,7 +91,7 @@ function App() {
           <div className="day">
             <div className="todayNextWeeek">
               <h2 className={day === "today" ? 'today darker-' + theme : "today  noactive darker-" + theme} onClick={changeDay}>Today</h2>
-              <h2 className={day === "today" ? "nextWeek  noactive darker-"+theme :  'nextWeek darker-'+ theme} onClick={changeDay}>Next week</h2>
+              <h2 className={day === "today" ? "nextWeek  noactive darker-"+theme :  'nextWeek darker-'+ theme} onClick={changeDay}>Next days</h2>
             </div>
             <h3 onClick={changeTheme} onTouchMove={changeTheme} className="switchTheme">{theme !== "light" ? "Light" : "Dark"} mode</h3>
           </div>
@@ -101,11 +102,8 @@ function App() {
     );
   } else {
     return (
-      <div className={"lds-ring " + theme}>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
+      <div className={"App " + theme}>
+        <Loading theme={theme} />
       </div>
     );
   }

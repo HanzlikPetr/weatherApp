@@ -1,30 +1,71 @@
 import React from "react";
 import "./style/Search.css";
+import $ from "jquery";
+import Loading from "./Loading";
 
 export default function Search({ cityName , cityValueProp, func}) {
     const [cityValue, setCityValue] = React.useState(cityValueProp);
+    const [city, setCity] = React.useState("");
+    const [option, setOption] = React.useState([])
     
-    
+    React.useEffect(() => {
+      const delayDebounceFn = setTimeout(() => {
+        $.ajax({
+          method: "GET",
+          url: "https://api.api-ninjas.com/v1/geocoding?city=" + city,
+          headers: { "X-Api-Key": "A8i5MFMdPVPqf23nTuS6rA==GAha0TyZEdBjlWRc" },
+          contentType: "application/json",
+          success: function (result) {
+            const pom = [];
+            setOption([])
+            result.forEach(element => {
+              pom.push(element)
+            });
+            setOption(pom)
+          },
+          error: function ajaxError(jqXHR) {
+            console.error("Error: ", jqXHR.responseText);
+          },
+        });
+      }, 1000)
+
+      return () => clearTimeout(delayDebounceFn)
+    }, [city]);
 
     const changeCityValue = (e) => {
+        setCity(e.target.value)
         setCityValue(e.target.value);
       };
 
       const changeCity = (e) => {
-        if (e.key === "Enter" && document.querySelector(".city").value.split(",")[0]) {
-          func(e.target.value);
+        if (e.key === "Enter") {
+          if(document.querySelector(".city").value.split(",")[0] !== cityName)
+            func(e.target.value);
+          else
+            alert("Same city")
         }
       };
     
       const changeCityClick = () => {
-        console.log(cityName)
         if(cityName !== document.querySelector(".city").value.split(",")[0]){
           func (document.querySelector(".city").value.split(",")[0]);
+        }else{
+          alert("Same city")
         }
       };
 
+      const changeCityOption = (e) => {
+        if(cityName !== e.target.innerText.split(",")[0]){
+          func(e.target.innerText.split(",")[0])
+        }
+      }
+
+      const options = option.map((e, i) => {
+        return <Option key={i} name={e} handleClick={changeCityOption}/>
+      })
+
   return (
-    <>
+    <div className="search">
       <div className="input-search">
         <input
           className="city"
@@ -61,6 +102,16 @@ export default function Search({ cityName , cityValueProp, func}) {
           </g>
         </svg>
       </div>
-    </>
+      <div className="option">
+        {options}
+      </div>
+    </div>
   );
+}
+
+
+function Option ({name , handleClick}){
+    return(
+      <p onClick={(e) => handleClick(e)}>{name.name + ", " + name.country}</p>
+    )
 }
