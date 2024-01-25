@@ -3,20 +3,26 @@ import imagesData from "../data";
 import "./style/NextWeek.css";
 
 export default function NextWeek({ temperature, theme }) {
+  console.log(temperature)
   const [indexDay, setIndexDay] = React.useState(0);
   const days = [];
 
-  let i = 1
+
+  let pom = new Date(temperature.timeseries[0].time).getDate();
   temperature.timeseries.forEach(element => {
-    const pom = new Date(element.time)
-    console.log(pom)
-    if(new Date().getDate() + i === pom.getDate()){
-      if((pom.getHours() - 1).toString() === "6" || (pom.getHours() - 1).toString() === "12"){
+    console.log(element)
+    const dayEl = new Date(element.time)
+
+
+    if(dayEl.getDate() !== pom){
+      if((dayEl.getHours() - 1).toString() === "6" || (dayEl.getHours() - 1).toString() === "12"){
+        pom = dayEl.getDate();
         days.push(element);
-        i++;
       }
     }
   });
+
+  console.log(days)
 
   const changeDay = (e) => {
     setIndexDay(e.className.split(" ")[0]);
@@ -56,8 +62,7 @@ function Day({ data, id, changeDay, theme }) {
       <h3 className={id}>
         {date.getDate() +
           ". " +
-          date.getMonth() +
-          1 +
+          (date.getMonth() + 1) + 
           ". " +
           date.getFullYear()}
       </h3>
