@@ -1,7 +1,7 @@
 import React from "react";
 import "chart.js/auto";
 import { Line } from "react-chartjs-2";
-import "./Today.css"
+import "./style/Today.css"
 
 export default function Today({ temperature , theme}) {
   const [type, setType] = React.useState("air_temperature");

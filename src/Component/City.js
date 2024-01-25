@@ -1,6 +1,6 @@
 import React from 'react';
 import imagesData from "../data"
-import "./City.css"
+import "./style/City.css"
 
 
 export default function City({city, temperature}){

@@ -4,6 +4,7 @@
     width: 90%;
     display: inline-flex;
     flex-wrap: wrap;
+    justify-content: center;
 }
 
 .days div{
@@ -11,7 +12,5 @@
     border-radius: 15px;
     cursor: pointer;
     margin-bottom: 5%;
-    margin-right: 3rem;
-    row-gap: 10rem;
-    
+    margin-right: 8rem;
 }

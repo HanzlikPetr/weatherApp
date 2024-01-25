@@ -1,6 +1,6 @@
 import React from "react";
 import imagesData from "../data";
-import "./NextWeel.css";
+import "./style/NextWeek.css";
 
 export default function NextWeek({ temperature, theme }) {
   const [indexDay, setIndexDay] = React.useState(0);
@@ -9,8 +9,9 @@ export default function NextWeek({ temperature, theme }) {
   let i = 1
   temperature.timeseries.forEach(element => {
     const pom = new Date(element.time)
+    console.log(pom)
     if(new Date().getDate() + i === pom.getDate()){
-      if((pom.getHours() - 1).toString() === "6"){
+      if((pom.getHours() - 1).toString() === "6" || (pom.getHours() - 1).toString() === "12"){
         days.push(element);
         i++;
       }
