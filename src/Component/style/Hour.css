@@ -1,0 +1,13 @@
+.hour{
+    display: flex;
+    width: 100%;
+    border-top: solid;
+    justify-content: space-evenly;
+    align-items: center;
+    font-size: 200%;
+}
+
+.hour p{
+    width: 20%;
+    margin-left: 10%;
+}

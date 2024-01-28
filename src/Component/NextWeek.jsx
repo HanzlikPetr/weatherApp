@@ -5,8 +5,6 @@ import "./style/NextWeek.css";
 export default function NextWeek({ temperature, theme, time }) {
   const days = [];
   const [indexDay, setIndexDay] = React.useState(0);
-  
-  console.log(temperature)
 
   let pom = parseInt(time.day);
   temperature.timeseries.forEach(element => {
@@ -31,7 +29,7 @@ export default function NextWeek({ temperature, theme, time }) {
   return (
     <>
       <div className="days">{day}</div>
-      <Details temperature={days[indexDay]} />
+      <Details temperature={days[indexDay]} data={temperature}/>
     </>
   );
 }
@@ -66,7 +64,8 @@ function Day({ data, id, changeDay, theme }) {
   );
 }
 
-function Details({ temperature }) {
+function Details({ temperature, data }) {
+  
   let windDirection;
   const date = new Date(temperature.time);
   const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -80,6 +79,9 @@ function Details({ temperature }) {
   } else {
     windDirection = "North";
   }
+
+  
+
   return (
     <>
       <h1>

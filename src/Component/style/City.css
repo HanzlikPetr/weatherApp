@@ -3,12 +3,12 @@
     width: 15vw;
   }
   
-  header .temperature{
+   .temperature{
     font-size: 500%;
     font-weight: 500;
   }
   
-  header .line{
+   .line{
     width: 70%;
     height: 1%;
     border-radius: 15px;
@@ -16,12 +16,12 @@
     margin: 5% 0 15% 0;
   }
   
-  header .date{
+   .time{
     font-size: 300%;
   }
-  
-  header .cityName{
+
+   .cityName{
     font-size: 400;
     font-size: 300%;
     margin-top: 20%;
-  }
+   }

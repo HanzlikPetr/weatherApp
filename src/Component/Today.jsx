@@ -2,6 +2,7 @@ import React from "react";
 import "chart.js/auto";
 import { Line } from "react-chartjs-2";
 import "./style/Today.css"
+import Hour from "./Hour";
 
 export default function Today({ temperature , theme, time}) {
   const [type, setType] = React.useState("air_temperature");
@@ -9,16 +10,20 @@ export default function Today({ temperature , theme, time}) {
     "Temperature (" + temperature.meta.units[type] + ")"
   );
 
-  let dataDay = [];
-  let dataTime = [];
+  const dataDay = [];
+  const dataHours = []
+  const dataTime = [];
 
   const pom = new Date(time.datetime);
-  for (let i = 0; i <= 61; i++) {
+  for (let i = 0; i < 24; i++) {
     pom.setHours(pom.getHours() + 1)
-    dataTime.push(
-      pom.getDate() + ". " + pom.getMonth() + 1 + ". " + pom.getHours() + ":00"
-    );
-    dataDay.push(temperature.timeseries[i].data.instant.details[type]);
+    if(pom.getDate() === parseInt(time.day)){
+      dataTime.push(
+        pom.getDate() + ". " + pom.getMonth() + 1 + ". " + pom.getHours() + ":00"
+      );
+      dataDay.push(temperature.timeseries[i].data.instant.details[type]);
+      dataHours.push(temperature.timeseries[i]);
+    }
   }
 
   let windDirection;
@@ -51,6 +56,10 @@ export default function Today({ temperature , theme, time}) {
     
 
   };
+  
+  const hours = dataHours.map((e,i) => {
+    return <Hour data={e} key={i} time={dataTime} id={i}/>
+  })
 
   return (
     <>
@@ -82,6 +91,7 @@ export default function Today({ temperature , theme, time}) {
         </h3>
         </div>
       </div>
+      {hours}
       <div className="div-graph">
         <div className="selectType">
           <p className={"air_temperature active darker-" + theme} onClick={changeType}>
@@ -116,3 +126,5 @@ export default function Today({ temperature , theme, time}) {
     </>
   );
 }
+
+
