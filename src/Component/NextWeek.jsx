@@ -1,6 +1,7 @@
 import React from "react";
 import imagesData from "../data";
 import "./style/NextWeek.css";
+import Hour from "./Hour";
 
 export default function NextWeek({ temperature, theme, time }) {
   const days = [];
@@ -65,7 +66,7 @@ function Day({ data, id, changeDay, theme }) {
 }
 
 function Details({ temperature, data }) {
-  
+  console.log(data)
   let windDirection;
   const date = new Date(temperature.time);
   const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -80,7 +81,22 @@ function Details({ temperature, data }) {
     windDirection = "North";
   }
 
-  
+  const hoursArray = []
+  const dataTime = [];
+
+  data.timeseries.forEach(e => {   
+    const pom = new Date(e.time)
+    if(pom.getUTCDate() === new Date(temperature.time).getDate()){
+      dataTime.push(
+        pom.getUTCDate() + ". " + pom.getUTCMonth() + 1 + ". " + pom.getUTCHours() + ":00"
+      );
+      hoursArray.push(e)
+    }
+  })
+
+  const hours = hoursArray.map((e, i) =>{
+    return <Hour data={e} key={i} time={dataTime} id={i}/>
+  })
 
   return (
     <>
@@ -115,6 +131,7 @@ function Details({ temperature, data }) {
           <h3>{temperature.data.instant.details.cloud_area_fraction} %</h3>
         </div>
       </div>
+      {hours}
     </>
   );
 }
