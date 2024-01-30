@@ -14,3 +14,25 @@
     margin-bottom: 5%;
     margin-right: 5rem;
 }
+
+.details-nextWeek{
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    margin: 3% 0 5% 0;
+}
+
+.details-nextWeek div{
+    padding: 2% 0% 0 1%;
+    width: 18%;
+    min-width: fit-content;
+    height: 100%;
+    border-radius: 25px;
+    background-color: #00a2ff;
+    color: #FFFFF0;
+  }
+
+  .details-nextWeek div h3{
+    padding: 5% 0;
+    font-size: 150%;
+  }

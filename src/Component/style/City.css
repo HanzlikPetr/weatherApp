@@ -25,3 +25,9 @@
     font-size: 300%;
     margin-top: 20%;
    }
+
+   .star{
+    width: fit-content;
+    cursor: pointer;
+    vertical-align: middle;
+   }

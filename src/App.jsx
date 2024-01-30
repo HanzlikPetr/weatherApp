@@ -1,85 +1,66 @@
 import React from "react";
-import $ from "jquery";
 import "./App.css";
 import City from "./Component/City";
 import Today from "./Component/Today";
 import NextWeek from "./Component/NextWeek";
 import Search from "./Component/Search";
 import Loading from "./Component/Loading";
-
+import {getDataWeather , getTime, getCity} from "./api";
 
 function App() {
   //create variables
+  //weather data
   const [data, setData] = React.useState("");
-  const [latLong, setLangLong] = React.useState({
-    lat: "50.073658",
-    long: "14.418540",
-  });
-  const [cityName, setCityName] = React.useState("Prague");
+
+  const [latLong, setLangLong] = React.useState("");
+
+  //const  pom = {...localStorage}
+  const [cityName, setCityName] = React.useState(/*Object.values(pom)[0]*/"Prague");
+
+  //city that we want to found
   const [city, setCity] = React.useState("");
-  const [day, setDay] = React.useState("today")
-  const [theme, setTheme] = React.useState("light")
+  //curent value at search bar
   const [cityValue, setCityValue] = React.useState("");
-  const [time, setTime] = React.useState("")
+  const [day, setDay] = React.useState("today")
 
-  //work with yr api
+  const [theme, setTheme] = React.useState("light")
+  //current time in that city
+  const [time, setTime] = React.useState("");
+
+  const [loading, setLoading ] = React.useState()
+
   React.useEffect(() => {
-    const getData = async () => {
-      const res = await fetch(
-        `https://api.met.no/weatherapi/locationforecast/2.0/compact?lat=${latLong.lat}&lon=${latLong.long}`
-      );
-      const resData = await res.json();
-      setData(resData.properties);
-    };
-
-    getData();
+    latLong !== "" && getDataWeather(latLong).then(value => setData(value));
   }, [latLong]);
 
-  //work with geolocation api
   React.useEffect(() => {
-    $.ajax({
-      method: 'GET',
-      url: 'https://api.api-ninjas.com/v1/worldtime?city=' + cityName,
-      headers: { 'X-Api-Key': "A8i5MFMdPVPqf23nTuS6rA==GAha0TyZEdBjlWRc"},
-      contentType: 'application/json',
-      success: function(result) {
-          setTime(result);
-      },
-      error: function ajaxError(jqXHR) {
-          console.error('Error: ', jqXHR.responseText);
-      }
+    setLoading(0)
+  
+    getTime(cityName).then(value => {
+      setTime(value) 
+      setLoading(1)
     })
 
-    $.ajax({
-      method: "GET",
-      url: "https://api.api-ninjas.com/v1/geocoding?city=" + cityName,
-      headers: { "X-Api-Key": "A8i5MFMdPVPqf23nTuS6rA==GAha0TyZEdBjlWRc" },
-      contentType: "application/json",
-      success: function (result) {
-        //console.log(result[0]);
-        setCity(result[0]);
-        setCityValue(result[0].name + ", " + result[0].country);
-        setLangLong({ lat: result[0].latitude, long: result[0].longitude });
-      },
-      error: function ajaxError(jqXHR) {
-        console.error("Error: ", jqXHR.responseText);
-      },
+    getCity(cityName).then(result => {
+      setCity(result[0]);
+      setCityValue(result[0].name + ", " + result[0].country);
+      setLangLong({ lat: result[0].latitude, long: result[0].longitude });
       
-    });
-
+    })
   }, [cityName]);
 
 
+  //changing city that we want found  
   const changeCity = (city) => {
     setCity("")
     setCityName(city)
   }
-
-
+  
   const changeDay = (e) => {
     setDay(e.target.classList.contains("today") ? "today": "nextWeek")
   }
 
+  //changing from light to dark mode
   const changeTheme = () => {
     setTheme((prev) => {
       const light = document.querySelectorAll("." + prev);
@@ -96,7 +77,7 @@ function App() {
     })
   }
 
-  if (city !== "" && data !== "") {
+  if (loading && data !== "") {
     return (
       <div className="App">
         <header className={theme}>

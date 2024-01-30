@@ -66,23 +66,18 @@ function Day({ data, id, changeDay, theme }) {
 }
 
 function Details({ temperature, data }) {
-  console.log(data)
-  let windDirection;
+  console.log(temperature)
   const date = new Date(temperature.time);
   const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
-  if (temperature.data.instant.details.wind_from_direction <= 90) {
-    windDirection = "East";
-  } else if (temperature.data.instant.details.wind_from_direction <= 180) {
-    windDirection = "South";
-  } else if (temperature.data.instant.details.wind_from_direction <= 270) {
-    windDirection = "West";
-  } else {
-    windDirection = "North";
-  }
-
   const hoursArray = []
   const dataTime = [];
+
+  const wind = [];
+  const pressure = [];
+  const humidity = [];
+  const cloudFraciton = []
+  const temp = []
 
   data.timeseries.forEach(e => {   
     const pom = new Date(e.time)
@@ -91,6 +86,11 @@ function Details({ temperature, data }) {
         pom.getUTCDate() + ". " + pom.getUTCMonth() + 1 + ". " + pom.getUTCHours() + ":00"
       );
       hoursArray.push(e)
+      wind.push(e.data.instant.details.wind_speed)
+      pressure.push(e.data.instant.details.air_pressure_at_sea_level)
+      humidity.push(e.data.instant.details.relative_humidity)
+      cloudFraciton.push(e.data.instant.details.cloud_area_fraction)
+      temp.push(e.data.instant.details.air_temperature)
     }
   })
 
@@ -103,32 +103,34 @@ function Details({ temperature, data }) {
       <h1>
         {date.getDate() +
           ". " +
-          date.getMonth() +
-          1 +
+          (parseInt(date.getUTCMonth()) + 1) +
           ". " +
           date.getFullYear() + " " + daysOfWeek[date.getDay()]}
       </h1>
-      <div className="details">
+      <div className="details-nextWeek">
         <div className="wind">
-          <p>Wind</p>
-          <h3>{temperature.data.instant.details.wind_speed} m/s</h3>
-          <p>{windDirection}</p>
+          <p>Average Wind</p>
+          <h3>{(wind.reduce((a, b) => a + b, 0) / wind.length).toFixed(1)} m/s</h3>
         </div>
         <div className="pressure">
-          <p>Pressure</p>
+          <p>Average Pressure</p>
           <h3>
-            {temperature.data.instant.details.air_pressure_at_sea_level} hpa
+            {(pressure.reduce((a, b) => a + b, 0) / pressure.length).toFixed(1)} hpa
           </h3>
         </div>
         <div>
-          <p>Humidity</p>
+          <p>Average Humidity</p>
           <h3 className="humidity">
-            {temperature.data.instant.details.relative_humidity} %
+            {(humidity.reduce((a, b) => a + b, 0) / humidity.length).toFixed(1)} %
           </h3>
         </div>
         <div className="cloudFraction">
-          <p>Cloud area fraction</p>
-          <h3>{temperature.data.instant.details.cloud_area_fraction} %</h3>
+          <p>Average Cloud area fraction</p>
+          <h3>{(cloudFraciton.reduce((a, b) => a + b, 0) / cloudFraciton.length).toFixed(1)} %</h3>
+        </div>
+        <div className="temeprature">
+          <p>Average Temperature</p>
+          <h3>{(temp.reduce((a, b) => a + b, 0) / temp.length).toFixed(1)} °C</h3>
         </div>
       </div>
       {hours}
