@@ -41,6 +41,7 @@ function App() {
       setLoading(1)
     })
 
+    setCityValue("")
     getCity(cityName).then(result => {
       setCity(result[0]);
       setCityValue(result[0].name + ", " + result[0].country);
@@ -77,7 +78,7 @@ function App() {
     })
   }
 
-  if (loading && data !== "") {
+  if (loading && data !== "" && cityValue !== "") {
     return (
       <div className="App">
         <header className={theme}>

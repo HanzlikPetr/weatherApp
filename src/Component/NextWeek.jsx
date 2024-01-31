@@ -59,7 +59,7 @@ export default function NextWeek({ temperature, theme, time }) {
   return (
     <>
       <div className="days">{day}</div>
-      <Details temperature={days[indexDay]} data={temperature}/>
+      <Details temperature={days[indexDay]} data={temperature} time={time}/>
       <Chart theme={theme} name={name} changeType={changeType} dataDay={dataDay} dataTime={dataTime}/>
     </>
   );
@@ -95,7 +95,7 @@ function Day({ data, id, changeDay, theme }) {
   );
 }
 
-function Details({ temperature, data }) {
+function Details({ temperature, data, time }) {
   const date = new Date(temperature.time);
   const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
@@ -108,11 +108,38 @@ function Details({ temperature, data }) {
   const cloudFraciton = []
   const temp = []
 
+
+  /*for(let i = 0; i < data.timeseries.length; i++){
+    const hour = data.timeseries[i]
+    const pom = new Date(hour.time)
+
+    console.log() 
+
+    if(pom.getDate() ===  new Date(temperature.time).getDate()){
+      const e = data.timeseries[i - (Math.round((new Date()  - new Date(time.datetime)) / 86400000 * 24))];
+
+      console.log(i - (Math.round((new Date()  - new Date(time.datetime)) / 86400000 * 24)))
+
+      dataTime.push(
+        pom.getUTCDate() + ". " + pom.getUTCMonth() + 1 + ". " + pom.setHours(pom.getHours() - (Math.round((new Date()  - new Date(time.datetime)) / 86400000 * 24))) + ":00"
+      );
+      
+      hoursArray.push(e)
+      wind.push(e.data.instant.details.wind_speed)
+      pressure.push(e.data.instant.details.air_pressure_at_sea_level)
+      humidity.push(e.data.instant.details.relative_humidity)
+      cloudFraciton.push(e.data.instant.details.cloud_area_fraction)
+      temp.push(e.data.instant.details.air_temperature)
+    }
+  }*/
+
   data.timeseries.forEach(e => {   
+    const delay = Math.round((new Date()  - new Date(time.datetime)) / 86400000 * 24)
     const pom = new Date(e.time)
+    pom.setHours(pom.getHours() - delay)
     if(pom.getUTCDate() === new Date(temperature.time).getDate()){
       dataTime.push(
-        pom.getUTCDate() + ". " + pom.getUTCMonth() + 1 + ". " + pom.getUTCHours() + ":00"
+        pom.getUTCDate() + ". " + pom.getUTCMonth() + 1 + ". " + pom.getHours() + ":00"
       );
       hoursArray.push(e)
       wind.push(e.data.instant.details.wind_speed)
@@ -123,6 +150,7 @@ function Details({ temperature, data }) {
     }
   })
 
+  console.log(hoursArray)
   const hours = hoursArray.map((e, i) =>{
     return <Hour data={e} key={i} time={dataTime} id={i}/>
   })
