@@ -2,10 +2,15 @@ import React from "react";
 import imagesData from "../data";
 import "./style/NextWeek.css";
 import Hour from "./Hour";
+import Chart from "./Chart";
 
 export default function NextWeek({ temperature, theme, time }) {
   const days = [];
   const [indexDay, setIndexDay] = React.useState(0);
+  const [type, setType] = React.useState("air_temperature");
+  const [name, setName] = React.useState(
+    "Temperature (" + temperature.meta.units[type] + ")"
+  );
 
   let pom = parseInt(time.day);
   temperature.timeseries.forEach(element => {
@@ -25,12 +30,37 @@ export default function NextWeek({ temperature, theme, time }) {
     return <Day data={e} key={i} id={i} changeDay={changeDay} theme={theme} />;
   });
 
+  const changeType = (e) => {
+    document.querySelector(".div-graph .active").classList.remove("active")
+    e.target.classList.add("active")
+    setType(e.target.className.split(" ")[0]);
+    setName(
+      e.target.innerText +
+        " (" +
+        temperature.meta.units[e.target.className.split(" ")[0]] +
+        ")"
+    );
+  };
   
+  const dataDay = [];
+  const dataTime = [];
+  const dayCheck = new Date(days[indexDay].time).getDate();
+
+  temperature.timeseries.forEach(e => {
+    const pom = new Date(e.time);
+    if(dayCheck === pom.getDate()){
+      dataTime.push(
+        pom.getDate() + ". " + (pom.getMonth() + 1) + ". " + pom.getHours() + ":00"
+      );
+      dataDay.push(e.data.instant.details[type]);
+    }
+  })
 
   return (
     <>
       <div className="days">{day}</div>
       <Details temperature={days[indexDay]} data={temperature}/>
+      <Chart theme={theme} name={name} changeType={changeType} dataDay={dataDay} dataTime={dataTime}/>
     </>
   );
 }
@@ -66,7 +96,6 @@ function Day({ data, id, changeDay, theme }) {
 }
 
 function Details({ temperature, data }) {
-  console.log(temperature)
   const date = new Date(temperature.time);
   const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 

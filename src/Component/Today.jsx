@@ -1,8 +1,7 @@
 import React from "react";
-import "chart.js/auto";
-import { Line } from "react-chartjs-2";
 import "./style/Today.css"
 import Hour from "./Hour";
+import Chart from "./Chart";
 
 export default function Today({ temperature , theme, time}) {
   const [type, setType] = React.useState("air_temperature");
@@ -11,7 +10,7 @@ export default function Today({ temperature , theme, time}) {
   );
 
   const dataDay = [];
-  const dataHours = []
+  const dataHours = [];
   const dataTime = [];
 
   const pom = new Date(time.datetime);
@@ -19,7 +18,7 @@ export default function Today({ temperature , theme, time}) {
     pom.setHours(pom.getHours() + 1)
     if(pom.getDate() === parseInt(time.day)){
       dataTime.push(
-        pom.getDate() + ". " + pom.getMonth() + 1 + ". " + pom.getHours() + ":00"
+        pom.getDate() + ". " + (pom.getMonth() + 1) + ". " + pom.getHours() + ":00"
       );
       dataDay.push(temperature.timeseries[i].data.instant.details[type]);
       dataHours.push(temperature.timeseries[i]);
@@ -53,8 +52,6 @@ export default function Today({ temperature , theme, time}) {
         temperature.meta.units[e.target.className.split(" ")[0]] +
         ")"
     );
-    
-
   };
   
   const hours = dataHours.map((e,i) => {
@@ -92,37 +89,7 @@ export default function Today({ temperature , theme, time}) {
         </div>
       </div>
       {hours}
-      <div className="div-graph">
-        <div className="selectType">
-          <p className={"air_temperature active darker-" + theme} onClick={changeType}>
-            Temperature
-          </p>
-          <p className={"wind_speed darker-"+ theme} onClick={changeType}>
-            Wind speed
-          </p>
-          <p className={"relative_humidity darker-" + theme} onClick={changeType}>
-            Humidity
-          </p>
-          <p className={"cloud_area_fraction darker-" + theme}  onClick={changeType}>
-            Cloud area fraction
-          </p>
-        </div>
-        <Line
-          datasetIdKey="id"
-          data={{
-            labels: dataTime,
-            datasets: [
-              {
-                label: name,
-                data: dataDay,
-                borderWidth: 1,
-                fill: false,
-                tension: 0.5,
-              },
-            ],
-          }}
-        />
-      </div>
+      <Chart name={name} dataTime={dataTime} dataDay={dataDay} theme={theme} changeType={changeType}/>
     </>
   );
 }
