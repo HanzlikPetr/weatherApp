@@ -3,14 +3,17 @@ import imagesData from "../data";
 import "./style/NextWeek.css";
 import Hour from "./Hour";
 import Chart from "./Chart";
+import { useTasks } from "../App";
 
-export default function NextWeek({ temperature, theme, time }) {
+export default function NextWeek({ temperature, time}) {
   const days = [];
   const [indexDay, setIndexDay] = React.useState(0);
   const [type, setType] = React.useState("air_temperature");
   const [name, setName] = React.useState(
     "Temperature (" + temperature.meta.units[type] + ")"
   );
+
+  const theme = useTasks();
 
   let pom = parseInt(time.day);
   temperature.timeseries.forEach(element => {
@@ -107,31 +110,6 @@ function Details({ temperature, data, time }) {
   const humidity = [];
   const cloudFraciton = []
   const temp = []
-
-
-  /*for(let i = 0; i < data.timeseries.length; i++){
-    const hour = data.timeseries[i]
-    const pom = new Date(hour.time)
-
-    console.log() 
-
-    if(pom.getDate() ===  new Date(temperature.time).getDate()){
-      const e = data.timeseries[i - (Math.round((new Date()  - new Date(time.datetime)) / 86400000 * 24))];
-
-      console.log(i - (Math.round((new Date()  - new Date(time.datetime)) / 86400000 * 24)))
-
-      dataTime.push(
-        pom.getUTCDate() + ". " + pom.getUTCMonth() + 1 + ". " + pom.setHours(pom.getHours() - (Math.round((new Date()  - new Date(time.datetime)) / 86400000 * 24))) + ":00"
-      );
-      
-      hoursArray.push(e)
-      wind.push(e.data.instant.details.wind_speed)
-      pressure.push(e.data.instant.details.air_pressure_at_sea_level)
-      humidity.push(e.data.instant.details.relative_humidity)
-      cloudFraciton.push(e.data.instant.details.cloud_area_fraction)
-      temp.push(e.data.instant.details.air_temperature)
-    }
-  }*/
 
   data.timeseries.forEach(e => {   
     const delay = Math.round((new Date()  - new Date(time.datetime)) / 86400000 * 24)

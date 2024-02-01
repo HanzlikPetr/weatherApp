@@ -6,9 +6,12 @@ import NextWeek from "./Component/NextWeek";
 import Search from "./Component/Search";
 import Loading from "./Component/Loading";
 import {getDataWeather , getTime, getCity} from "./api";
+import { useContext } from 'react';
+
+const UserContext = React.createContext(null);
+
 
 function App() {
-  //create variables
   //weather data
   const [data, setData] = React.useState("");
 
@@ -23,7 +26,7 @@ function App() {
   const [cityValue, setCityValue] = React.useState("");
   const [day, setDay] = React.useState("today")
 
-  const [theme, setTheme] = React.useState("light")
+  const [theme, setTheme] = React.useState(localStorage.getItem("theme") ? "dark" : "light")
   //current time in that city
   const [time, setTime] = React.useState("");
 
@@ -72,6 +75,12 @@ function App() {
 
       const newTheme = prev === "light" ? "dark" : "light";
 
+      if(newTheme === "dark"){
+        localStorage.setItem("theme", "dark");
+      }else{
+        localStorage.removeItem("theme");
+      }
+
       light.forEach(e => e.classList.add(newTheme))
       darkerLight.forEach(e => e.classList.add("darker-" + newTheme))
       return newTheme;
@@ -80,31 +89,37 @@ function App() {
 
   if (loading && data !== "" && cityValue !== "") {
     return (
-      <div className="App">
-        <header className={theme}>
-          <Search cityName={cityName} cityValueProp={cityValue} func={changeCity}/>
-          <City city={city} temperature={data.timeseries[0]}  time={time}/>
-        </header>
-        <main className={"darker-"+theme}>
-          <div className="day">
-            <div className="todayNextWeeek">
-              <h2 className={day === "today" ? 'today darker-' + theme : "today  noactive darker-" + theme} onClick={changeDay}>Today</h2>
-              <h2 className={day === "today" ? "nextWeek  noactive darker-"+theme :  'nextWeek darker-'+ theme} onClick={changeDay}>Next days</h2>
+      <UserContext.Provider value={theme}>
+        <div className="App">
+          <header className={theme}>
+            <Search cityName={cityName} cityValueProp={cityValue} func={changeCity}/>
+            <City city={city} temperature={data.timeseries[0]}  time={time}/>
+          </header>
+          <main className={"darker-"+theme}>
+            <div className="day">
+              <div className="todayNextWeeek">
+                <h2 className={day === "today" ? 'today darker-' + theme : "today  noactive darker-" + theme} onClick={changeDay}>Today</h2>
+                <h2 className={day === "today" ? "nextWeek  noactive darker-"+theme :  'nextWeek darker-'+ theme} onClick={changeDay}>Next days</h2>
+              </div>
+              <h3 onClick={changeTheme} onTouchMove={changeTheme} className="switchTheme">{theme !== "light" ? "Light" : "Dark"} mode</h3>
             </div>
-            <h3 onClick={changeTheme} onTouchMove={changeTheme} className="switchTheme">{theme !== "light" ? "Light" : "Dark"} mode</h3>
-          </div>
-          {day === "today" && <Today temperature={data} theme={theme} time={time}/>}
-          {day === "nextWeek" && <NextWeek temperature={data} theme={theme} time={time}/>} 
-        </main>
-      </div>
+            {day === "today" && <Today temperature={data} time={time}/>}
+            {day === "nextWeek" && <NextWeek temperature={data} time={time}/>} 
+          </main>
+        </div>
+      </UserContext.Provider>
     );
   } else {
     return (
-      <div className={"App " + theme}>
-        <Loading theme={theme} />
-      </div>
+        <div className={"App " + theme}>
+          <Loading/>
+        </div>
     );
   }
+}
+
+export function useTasks() {
+  return useContext(UserContext);
 }
 
 export default App;
