@@ -7,6 +7,7 @@ import Search from "./Component/Search";
 import Loading from "./Component/Loading";
 import {getDataWeather , getTime, getCity} from "./api";
 import { useContext } from 'react';
+import { useLoaderData} from "react-router-dom";
 
 const UserContext = React.createContext(null);
 
@@ -15,8 +16,7 @@ function App() {
   //weather data
   const [data, setData] = React.useState("");
 
-  //const  pom = {...localStorage}
-  const [cityName, setCityName] = React.useState(/*Object.values(pom)[0]*/"Prague");
+  const cityName = useLoaderData();
 
   //city that we want to found
   const [city, setCity] = React.useState("");
@@ -46,12 +46,6 @@ function App() {
     })
   }, [cityName]);
 
-
-  //changing city that we want found  
-  const changeCity = (city) => {
-    setCity("")
-    setCityName(city)
-  }
   
   const changeDay = (e) => {
     setDay(e.target.classList.contains("today") ? "today": "nextWeek")
@@ -80,12 +74,14 @@ function App() {
     })
   }
 
+  
+
   if (loading && data !== "" && cityValue !== "") {
     return (
       <UserContext.Provider value={theme}>
         <div className="App">
           <header className={theme}>
-            <Search cityName={cityName} cityValueProp={cityValue} func={changeCity}/>
+            <Search cityName={cityName} cityValueProp={cityValue} />
             <City city={city} temperature={data.timeseries[0]}  time={time}/>
           </header>
           <main className={"darker-"+theme}>
@@ -115,4 +111,11 @@ export function useTasks() {
   return useContext(UserContext);
 }
 
+export async function loader({ params }) {
+  //console.log(params.cityName);
+  return params.cityName;
+}
+
 export default App;
+
+

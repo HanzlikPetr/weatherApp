@@ -1,8 +1,9 @@
 import React from "react";
 import "./style/Search.css";
 import { getCity } from "../api";
+import { Form, useLoaderData, redirect } from "react-router-dom";
 
-export default function Search({ cityName, cityValueProp, func }) {
+export default function Search({ cityName, cityValueProp }) {
   //value in search bar
   const [cityValue, setCityValue] = React.useState(cityValueProp);
 
@@ -35,80 +36,72 @@ export default function Search({ cityName, cityValueProp, func }) {
     setCityValue(e.target.value);
   };
 
-  //change city that we want to found on enter
-  const changeCity = (e) => {
-    if (e.key === "Enter") {
-      if (document.querySelector(".city").value.split(",")[0] !== cityName)
-        func(e.target.value);
-      else alert("Same city");
-    }
-  };
-
-  //change city that we want to found on click
-  const changeCityClick = () => {
-    if (cityName !== document.querySelector(".city").value.split(",")[0]) {
-      func(document.querySelector(".city").value.split(",")[0]);
-    } else {
-      alert("Same city");
-    }
-  };
-
-  //change city that we want to found after click on option
-  const changeCityOption = (e) => {
-    if (cityName !== e.target.innerText.split(",")[0]) {
-      func(e.target.innerText.split(",")[0]);
-    }
-  };
-
   const options = option.map((e, i) => {
-    return <Option key={i} name={e} handleClick={changeCityOption} />;
+    return <Option key={i} name={e} />;
   });
+
+  function Option({ name }) {
+    console.log(name)
+    return (
+      <button type="submit" name="city" value={name.name + ", " + name.country}>{name.name + ", " + name.country}</button>
+    );
+  }
 
   return (
     <div className="search">
-      <div className="input-search">
+      <Form className="input-search" method="post">
         <input
           className="city"
           type="text"
           onChange={changeCityValue}
-          value={cityValue}
-          onKeyDown={changeCity}
+          defaultValue={cityValue}
+          name="city"
+          //onKeyDown={changeCity}
         />
-        <svg
-          onClick={changeCityClick}
-          fill="#000000"
-          height="25px"
-          width="25px"
-          version="1.1"
-          id="Capa_1"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 488.4 488.4"
-        >
-          <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
-          <g
-            id="SVGRepo_tracerCarrier"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          ></g>
-          <g id="SVGRepo_iconCarrier">
-            {" "}
-            <g>
+        <button type="submit">
+          <svg
+            //onClick={changeCityClick}
+            fill="#000000"
+            height="25px"
+            width="25px"
+            version="1.1"
+            id="Capa_1"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 488.4 488.4"
+          >
+            <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+            <g
+              id="SVGRepo_tracerCarrier"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            ></g>
+            <g id="SVGRepo_iconCarrier">
               {" "}
               <g>
                 {" "}
-                <path d="M0,203.25c0,112.1,91.2,203.2,203.2,203.2c51.6,0,98.8-19.4,134.7-51.2l129.5,129.5c2.4,2.4,5.5,3.6,8.7,3.6 s6.3-1.2,8.7-3.6c4.8-4.8,4.8-12.5,0-17.3l-129.6-129.5c31.8-35.9,51.2-83,51.2-134.7c0-112.1-91.2-203.2-203.2-203.2 S0,91.15,0,203.25z M381.9,203.25c0,98.5-80.2,178.7-178.7,178.7s-178.7-80.2-178.7-178.7s80.2-178.7,178.7-178.7 S381.9,104.65,381.9,203.25z"></path>{" "}
+                <g>
+                  {" "}
+                  <path d="M0,203.25c0,112.1,91.2,203.2,203.2,203.2c51.6,0,98.8-19.4,134.7-51.2l129.5,129.5c2.4,2.4,5.5,3.6,8.7,3.6 s6.3-1.2,8.7-3.6c4.8-4.8,4.8-12.5,0-17.3l-129.6-129.5c31.8-35.9,51.2-83,51.2-134.7c0-112.1-91.2-203.2-203.2-203.2 S0,91.15,0,203.25z M381.9,203.25c0,98.5-80.2,178.7-178.7,178.7s-178.7-80.2-178.7-178.7s80.2-178.7,178.7-178.7 S381.9,104.65,381.9,203.25z"></path>{" "}
+                </g>{" "}
               </g>{" "}
-            </g>{" "}
-          </g>
-        </svg>
-      </div>
+            </g>
+          </svg>
+        </button>
       <div className="option">{options}</div>
+      </Form>
     </div>
   );
 }
 
-function Option({ name, handleClick }) {
-  return (
-    <p onClick={(e) => handleClick(e)}>{name.name + ", " + name.country}</p>
-  );
-}
+  //changing city that we want found  
+  export async function action({request, params}){
+    //console.log(params.cityName)
+    const formData = await request.formData();
+    const updates = Object.fromEntries(formData);
+    if(params.cityName !== updates.city.split(",")[0])
+      console.log( updates.city.split(",")[0])
+    else
+      alert("Same city");
+    
+    return redirect(`/weather/${updates.city.split(",")[0]}`)
+  }
