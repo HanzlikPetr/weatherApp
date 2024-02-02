@@ -15,8 +15,6 @@ function App() {
   //weather data
   const [data, setData] = React.useState("");
 
-  const [latLong, setLangLong] = React.useState("");
-
   //const  pom = {...localStorage}
   const [cityName, setCityName] = React.useState(/*Object.values(pom)[0]*/"Prague");
 
@@ -33,10 +31,6 @@ function App() {
   const [loading, setLoading ] = React.useState()
 
   React.useEffect(() => {
-    latLong !== "" && getDataWeather(latLong).then(value => setData(value));
-  }, [latLong]);
-
-  React.useEffect(() => {
     setLoading(0)
   
     getTime(cityName).then(value => {
@@ -46,10 +40,9 @@ function App() {
 
     setCityValue("")
     getCity(cityName).then(result => {
+      getDataWeather(result[0].latitude, result[0].longitude).then(value => setData(value))
       setCity(result[0]);
-      setCityValue(result[0].name + ", " + result[0].country);
-      setLangLong({ lat: result[0].latitude, long: result[0].longitude });
-      
+      setCityValue(result[0].name + ", " + result[0].country);      
     })
   }, [cityName]);
 

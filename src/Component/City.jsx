@@ -33,7 +33,6 @@ export default function City({city, temperature, time}){
             <p className='time'>{time.day_of_week + ', ' + time.hour + ':' + time.minute}</p>
             <h1  className='cityName'>{city.name } {<img className="star" src={!favorite ? require('../images/heart_872229.png') : require('../images/heart_833472.png')} alt='' onClick={hadleClick}/>}</h1>
             <p className='country'>{city.country + ( city.state === undefined ? "" : ', ' + city.state)}</p>            
-            <img src="" alt=""/>
         </>
     )
 }

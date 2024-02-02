@@ -5,6 +5,7 @@ import Hour from "./Hour";
 import Chart from "./Chart";
 import { useTasks } from "../App";
 
+
 export default function NextWeek({ temperature, time}) {
   const days = [];
   const [indexDay, setIndexDay] = React.useState(0);
@@ -75,10 +76,18 @@ function Day({ data, id, changeDay, theme }) {
   try {
     pom = data.data.next_12_hours.summary.symbol_code;
   } catch (error) {
-    console.log(error);
-    pom = data.data.next_6_hours.summary.symbol_code;
+    console.log(error);      
   }
 
+  if(typeof pom !== "string"){
+    try {
+      pom = data.data.next_6_hours.summary.symbol_code;
+    } catch (error) {
+      console.log(error);      
+    }
+  }
+  
+  if(typeof pom === "string")
   return (
     <div className={"i"+id + " " + theme} onClick={(e) => changeDay(e.target)}>
       <img
@@ -128,7 +137,6 @@ function Details({ temperature, data, time }) {
     }
   })
 
-  console.log(hoursArray)
   const hours = hoursArray.map((e, i) =>{
     return <Hour data={e} key={i} time={dataTime} id={i}/>
   })

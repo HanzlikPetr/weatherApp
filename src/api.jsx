@@ -5,9 +5,9 @@ import $ from "jquery";
  * @param {*} latLong
  * @returns data
  */
-export async function getDataWeather(latLong) {
+export async function getDataWeather(lat, long) {
   const res = await fetch(
-    `https://api.met.no/weatherapi/locationforecast/2.0/compact?lat=${latLong.lat}&lon=${latLong.long}`
+    `https://api.met.no/weatherapi/locationforecast/2.0/compact?lat=${lat}&lon=${long}`
   );
   const resData = await res.json();
   return resData.properties;
