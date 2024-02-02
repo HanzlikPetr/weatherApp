@@ -9,6 +9,7 @@ import {
 import Root from './Root';
 import { action } from './Component/Search';
 
+
 const router = createBrowserRouter([
   {
     path: "/",

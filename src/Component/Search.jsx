@@ -1,7 +1,7 @@
 import React from "react";
 import "./style/Search.css";
 import { getCity } from "../api";
-import { Form, useLoaderData, redirect } from "react-router-dom";
+import { Form , redirect } from "react-router-dom";
 
 export default function Search({ cityName, cityValueProp }) {
   //value in search bar

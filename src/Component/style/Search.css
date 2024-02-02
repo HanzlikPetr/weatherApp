@@ -33,23 +33,22 @@ svg{
 }
 
 .search{
-    position:relative;
     width: 80%;
 }
 
 .option{
     color: #0e1111;
-    position: absolute;
     background-color: #EDEDEF;
-    width: 100%;
-    margin-top: 30vh;
+    width: 80%;
     border-radius: 15px;
     display: flex;
     flex-direction: column;
+    position: absolute;
+    top: 10vh;
 }
 
 .option button{
-    padding: 2% 10% 2% 2%;
+    padding: 4% 10% 4% 2%;
     font-size: 150%;
     cursor: pointer;
 }
