@@ -7,7 +7,7 @@ import Search from "./Component/Search";
 import Loading from "./Component/Loading";
 import {getDataWeather , getTime, getCity} from "./api";
 import { useContext } from 'react';
-import { useLoaderData} from "react-router-dom";
+import { Link, useLoaderData} from "react-router-dom";
 
 const UserContext = React.createContext(null);
 
@@ -16,7 +16,8 @@ function App() {
   //weather data
   const [data, setData] = React.useState("");
 
-  const cityName = useLoaderData();
+  let cityName = useLoaderData();
+  //console.log(cityName)
 
   //city that we want to found
   const [city, setCity] = React.useState("");
@@ -91,6 +92,7 @@ function App() {
                 <h2 className={day === "today" ? "nextWeek  noactive darker-"+theme :  'nextWeek darker-'+ theme} onClick={changeDay}>Next days</h2>
               </div>
               <h3 onClick={changeTheme} onTouchMove={changeTheme} className="switchTheme">{theme !== "light" ? "Light" : "Dark"} mode</h3>
+              <Link to={'/'}>Home</Link>
             </div>
             {day === "today" && <Today temperature={data} time={time}/>}
             {day === "nextWeek" && <NextWeek temperature={data} time={time}/>} 

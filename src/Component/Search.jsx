@@ -98,10 +98,27 @@ export default function Search({ cityName, cityValueProp }) {
     //console.log(params.cityName)
     const formData = await request.formData();
     const updates = Object.fromEntries(formData);
-    if(params.cityName !== updates.city.split(",")[0])
-      console.log( updates.city.split(",")[0])
-    else
-      alert("Same city");
     
-    return redirect(`/weather/${updates.city.split(",")[0]}`)
+    
+    const char = ["š", "ž", "č", "ř", "ě"];
+    const correctChar = ["s", "z", "c", "r", "e"]
+    let pom = updates.city.split(",")[0]
+
+    if(char.some(ch => pom.includes(ch))){
+      let wrongChar;
+      pom.split("").forEach((e, i)  => {
+        char.forEach(el => {
+          if(el === e){
+            wrongChar = i;
+          }
+        }) 
+      })
+      
+      pom =  pom.substring(0, wrongChar) + correctChar[char.indexOf(updates.city.split(",")[0].charAt(wrongChar))] + pom.substring(wrongChar + 1)
+    }
+    
+    if(pom === params.cityName)
+    alert("Same city");
+
+    return redirect(`/weather/${pom}`)
   }
