@@ -8,18 +8,21 @@ import {
 } from "react-router-dom";
 import Root from './Root';
 import { action } from './Component/Search';
+import ErrorPage from './Component/ErrorPage';
 
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Root />,
+    errorElement: <ErrorPage />
   },
   {
     path: "weather/:cityName",
     element: <App />,
     loader: loader,
     action: action,
+    errorElement: <ErrorPage />
   }
 ]);
 
