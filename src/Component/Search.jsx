@@ -3,7 +3,7 @@ import "./style/Search.css";
 import { getCity } from "../api";
 import { Form , redirect } from "react-router-dom";
 
-export default function Search({ cityName, cityValueProp }) {
+export default function Search({ cityValueProp }) {
   //value in search bar
   const [cityValue, setCityValue] = React.useState(cityValueProp);
 
@@ -59,7 +59,7 @@ export default function Search({ cityName, cityValueProp }) {
           name="city"
           //onKeyDown={changeCity}
         />
-        <button type="submit">
+        <button type="submit" className="searchIcon">
           <svg
             //onClick={changeCityClick}
             fill="#000000"

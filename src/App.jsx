@@ -8,7 +8,6 @@ import Loading from "./Component/Loading";
 import {getDataWeather , getTime, getCity} from "./api";
 import { useContext } from 'react';
 import { Link, useLoaderData} from "react-router-dom";
-import homeButton from "./images/icons8-home-button-50.png"
 
 const UserContext = React.createContext(null);
 
@@ -83,7 +82,7 @@ function App() {
       <UserContext.Provider value={theme}>
         <div className="App">
           <header className={theme}>
-            <Search cityName={cityName} cityValueProp={cityValue} />
+            <Search cityValueProp={cityValue} />
             <City city={city} temperature={data.timeseries[0]}  time={time}/>
           </header>
           <main className={"darker-"+theme}>

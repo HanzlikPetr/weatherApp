@@ -27,6 +27,9 @@ button{
     border: none;
 }
 
+.searchIcon{
+    margin-right: 2%;
+}
 
 svg{
     margin-left: 5%;
