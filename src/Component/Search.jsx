@@ -51,6 +51,7 @@ export default function Search({ cityName, cityValueProp }) {
     <div className="search">
       <Form className="input-search" method="post">
         <input
+          placeholder="City name"
           className="city"
           type="text"
           onChange={changeCityValue}

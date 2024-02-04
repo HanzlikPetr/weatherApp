@@ -15,12 +15,16 @@ export default function NextWeek({ temperature, time}) {
   );
 
   const theme = useTasks();
+  const delay = Math.round((new Date()  - new Date(time.datetime)) / 86400000 * 24)
+
+  console.log(delay)
 
   let pom = parseInt(time.day);
   temperature.timeseries.forEach(element => {
     const dayEl = new Date(element.time)
-
-    if(dayEl.getDate() !== pom && (dayEl.getHours() - 1).toString() === "12"){
+    dayEl.setHours(dayEl.getHours() - delay)
+    console.log(dayEl.getHours() - 1)
+    if(dayEl.getDate() !== pom && (dayEl.getHours() - 1) === (12 - delay)){
         pom = dayEl.getDate();
         days.push(element);
     }
@@ -74,14 +78,14 @@ function Day({ data, id, changeDay, theme }) {
   let pom;
 
   try {
-    pom = data.data.next_12_hours.summary.symbol_code;
+    pom = data.data.next_6_hours.summary.symbol_code;
   } catch (error) {
     console.log(error);      
   }
 
   if(typeof pom !== "string"){
     try {
-      pom = data.data.next_6_hours.summary.symbol_code;
+      pom = data.data.next_12_hours.summary.symbol_code;
     } catch (error) {
       console.log(error);      
     }

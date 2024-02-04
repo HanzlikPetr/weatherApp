@@ -2,6 +2,7 @@
     display: flex;
     align-items: center;
     background-color: #EDEDEF;
+    justify-content: space-around;
     width: 100%;
     border-radius: 15px;
     padding: 2% 0;
@@ -26,6 +27,7 @@ button{
     border: none;
 }
 
+
 svg{
     margin-left: 5%;
     padding-right: 5%;
@@ -34,17 +36,20 @@ svg{
 
 .search{
     width: 80%;
+    position: relative;
 }
+
+
 
 .option{
     color: #0e1111;
     background-color: #EDEDEF;
-    width: 80%;
+    width: 100%;
     border-radius: 15px;
     display: flex;
     flex-direction: column;
     position: absolute;
-    top: 10vh;
+    top: 120%;
 }
 
 .option button{

@@ -1,6 +1,7 @@
 import React from "react";
 import Search from "./Component/Search";
 import { Form } from "react-router-dom";
+import "./Root.css"
 
 export default function Root() {
   const favorites = Object.keys({ ...localStorage });
@@ -13,12 +14,11 @@ export default function Root() {
   });
 
   return (
-    <>
-      <h1>Root</h1>
+    <div className="router">
       <Search />
       <Form method="post">
         {citie}
       </Form>
-    </>
+    </div>
   );
 }
