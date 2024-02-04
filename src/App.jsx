@@ -8,6 +8,7 @@ import Loading from "./Component/Loading";
 import {getDataWeather , getTime, getCity} from "./api";
 import { useContext } from 'react';
 import { Link, useLoaderData} from "react-router-dom";
+import homeButton from "./images/icons8-home-button-50.png"
 
 const UserContext = React.createContext(null);
 
@@ -86,13 +87,13 @@ function App() {
             <City city={city} temperature={data.timeseries[0]}  time={time}/>
           </header>
           <main className={"darker-"+theme}>
-            <div className="day">
+            <div className={"day darker-" + theme}>
               <div className="todayNextWeeek">
                 <h2 className={day === "today" ? 'today darker-' + theme : "today  noactive darker-" + theme} onClick={changeDay}>Today</h2>
                 <h2 className={day === "today" ? "nextWeek  noactive darker-"+theme :  'nextWeek darker-'+ theme} onClick={changeDay}>Next days</h2>
               </div>
               <h3 onClick={changeTheme} onTouchMove={changeTheme} className="switchTheme">{theme !== "light" ? "Light" : "Dark"} mode</h3>
-              <Link to={'/'}>Home</Link>
+              <Link to={'/'}><img src={theme === "light" ? require("./images/icons8-home-button-50.png"): require("./images/icons8-home-button-502.png")} alt="home button"/></Link>
             </div>
             {day === "today" && <Today temperature={data} time={time}/>}
             {day === "nextWeek" && <NextWeek temperature={data} time={time}/>} 

@@ -12,6 +12,11 @@
     padding: 0;
 }
 
+form{
+    width: 80%;
+    margin-top: 2%;
+}
+
 .router .search form{
     padding: 1% 0;
     margin-top: 2%;
@@ -19,4 +24,25 @@
 
 .router .option button{
     padding: 3% 0;
+}
+
+.router .button{
+    width: 100%;
+    padding: 2%;
+    font-size: 200%;
+    cursor: pointer;
+}
+
+.router .button:first-child{
+    border-top-left-radius: 25px;
+    border-top-right-radius: 25px;
+}
+
+.router .button:last-child{
+    border-bottom-left-radius: 25px;
+    border-bottom-right-radius: 25px;
+}
+
+.router .button:hover{
+    background-color: #00a2ff;
 }

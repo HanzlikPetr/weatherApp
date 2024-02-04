@@ -4,17 +4,24 @@ import { Form } from "react-router-dom";
 import "./Root.css"
 
 export default function Root() {
+  localStorage.setItem("Tokyo", "Tokyo")
+  localStorage.setItem("Prague", "Prague")
+  localStorage.setItem("Los Angeles", "Los Angeles")
   const favorites = Object.keys({ ...localStorage });
-  console.log(favorites);
+  
+  const theme = localStorage.getItem("theme");
+  console.log(theme)
 
   // eslint-disable-next-line array-callback-return
   const citie = favorites.map((e, i) => {
-    if (e !== "theme") 
-        return <button name="city" value={e} type="submit" key={i}>{e}</button>;
+    //let data;
+    if (e !== "theme"){      
+      return <button className={"button darker-" + theme} name="city" value={e} type="submit" key={i}>{e}</button>;
+    }
   });
 
   return (
-    <div className="router">
+    <div className={theme ? "router " +  theme : "router"}>
       <Search />
       <Form method="post">
         {citie}

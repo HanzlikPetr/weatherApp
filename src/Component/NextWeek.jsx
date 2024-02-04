@@ -23,7 +23,7 @@ export default function NextWeek({ temperature, time}) {
   temperature.timeseries.forEach(element => {
     const dayEl = new Date(element.time)
     dayEl.setHours(dayEl.getHours() - delay)
-    console.log(dayEl.getHours() - 1)
+
     if(dayEl.getDate() !== pom && (dayEl.getHours() - 1) === (12 - delay)){
         pom = dayEl.getDate();
         days.push(element);
