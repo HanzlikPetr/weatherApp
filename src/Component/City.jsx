@@ -8,10 +8,11 @@ export default function City({city, temperature, time}){
     const  pom = {...localStorage}
     
 
-    const [favorite, setFavorite] = React.useState(Object.values(pom).includes(city.name))
-
+    const [favorite, setFavorite] = React.useState(Object.keys(pom).includes(city.name))
+    
     const addToLocalStorage = () => {
-        localStorage.setItem(city.name, city.name)
+        console.log(JSON.stringify([city.name, city.latitude, city.longitude]))
+        localStorage.setItem(city.name, JSON.stringify([city.name, city.latitude, city.longitude]))
       } 
 
     const removeLocalStorage = () => {
