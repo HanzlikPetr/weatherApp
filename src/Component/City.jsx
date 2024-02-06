@@ -12,7 +12,7 @@ export default function City({city, temperature, time}){
     
     const addToLocalStorage = () => {
         console.log(JSON.stringify([city.name, city.latitude, city.longitude]))
-        localStorage.setItem(city.name, JSON.stringify([city.name, city.latitude, city.longitude]))
+        localStorage.setItem(city.name, city.name)
       } 
 
     const removeLocalStorage = () => {
