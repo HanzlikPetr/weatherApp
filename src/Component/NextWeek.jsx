@@ -15,7 +15,7 @@ export default function NextWeek({ temperature, time}) {
   );
 
   const theme = useTasks();
-  const delay = Math.round((new Date()  - new Date(time.datetime)) / 86400000 * 24)
+  const delay = Math.round((new Date()  - new Date(time.datetime)) / 86400000 * 24 - 1)
 
   console.log(delay)
 
@@ -25,7 +25,7 @@ export default function NextWeek({ temperature, time}) {
     dayEl.setHours(dayEl.getHours() - delay)
 
     console.log(dayEl.getHours())
-    if(dayEl.getDate() !== pom && (dayEl.getHours() === 13 || dayEl.getHours() > 9)){
+    if(dayEl.getDate() !== pom && (dayEl.getHours() === 13 || dayEl.getHours() > (delay > 0 ? 10 : 15))){
         pom = dayEl.getDate();
         days.push(element);
     }

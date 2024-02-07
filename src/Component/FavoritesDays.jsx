@@ -24,7 +24,7 @@ export default function FavoritesDays({ name, i }) {
   if (data !== "" && time !== "") {
     const days = [];
     const delay = Math.round(
-      ((new Date() - new Date(time.datetime)) / 86400000) * 24
+      ((new Date() - new Date(time.datetime)) / 86400000) * 24 - 1
     );
 
     let pom = parseInt(time.day);
@@ -32,42 +32,40 @@ export default function FavoritesDays({ name, i }) {
       const dayEl = new Date(element.time);
       dayEl.setHours(dayEl.getHours() - delay);
 
-      if (dayEl.getDate() !== pom && (dayEl.getHours() === 13 || dayEl.getHours() > 9)) {
+      if (
+        dayEl.getDate() !== pom &&
+        (dayEl.getHours() === 13 || dayEl.getHours() > (delay > 0 ? 10 : 15))
+      ) {
         pom = dayEl.getDate();
         days.push(element);
       }
     });
 
-    console.log(days)
+    console.log(days);
 
     const tryImages = (e) => {
       try {
         return e.data.next_1_hours.summary.symbol_code;
       } catch (error) {
-        console.log(error);      
+        console.log(error);
       }
-    
-      if(typeof images1 !== "string" || typeof images2 !== "string" && typeof images3 !== "string"){
-        try {
-          return e.data.next_6_hours.summary.symbol_code;
-        } catch (error) {
-          console.log(error);      
-        }
+
+      try {
+        return e.data.next_6_hours.summary.symbol_code;
+      } catch (error) {
+        console.log(error);
       }
-  
-      if(typeof images1 !== "string" && typeof images2 !== "string" && typeof images3 !== "string"){
-        try {
-          return e.data.next_12_hours.summary.symbol_code;
-        } catch (error) {
-          console.log(error);      
-        }
+
+      try {
+        return e.data.next_12_hours.summary.symbol_code;
+      } catch (error) {
+        console.log(error);
       }
-    }
-  
-    const images = days.map(e => tryImages(e))
-    
-    
-    console.log(images)
+    };
+
+    const images = days.map((e) => tryImages(e));
+
+    console.log(images);
     return (
       <button
         className={"button darker-" + theme}
@@ -77,47 +75,48 @@ export default function FavoritesDays({ name, i }) {
         key={i}
       >
         <div className="name">
-            <img src={require("../images/heart_833472.png")} alt="heart" className="heart"/>
-            {name}
+          <img
+            src={require("../images/heart_833472.png")}
+            alt="heart"
+            className="heart"
+          />
+          {name}
         </div>
         <div className="tepmerature">
           <h2>
-            {images[0] !== undefined && <img
-              src={require("../images/" +
-                imagesData[images[0]] +
-                ".svg")}
-              alt="weather icon"
-            />}
+            {images[0] !== undefined && (
+              <img
+                src={require("../images/" + imagesData[images[0]] + ".svg")}
+                alt="weather icon"
+              />
+            )}
             {days[0].data.instant.details.air_temperature}
           </h2>
           <h2>
-          {images[1] !== undefined &&
-            <img
-              src={require("../images/" +
-                imagesData[images[1]] +
-                ".svg")}
-              alt="weather icon"
-            />}
+            {images[1] !== undefined && (
+              <img
+                src={require("../images/" + imagesData[images[1]] + ".svg")}
+                alt="weather icon"
+              />
+            )}
             {days[1].data.instant.details.air_temperature}
           </h2>
           <h2>
-          {images[2] !== undefined &&
-            <img
-              src={require("../images/" +
-                imagesData[images[2]] +
-                ".svg")}
-              alt="weather icon"
-            />}
+            {images[2] !== undefined && (
+              <img
+                src={require("../images/" + imagesData[images[2]] + ".svg")}
+                alt="weather icon"
+              />
+            )}
             {days[2].data.instant.details.air_temperature}
           </h2>
           <h2>
-          {images[3] !== undefined &&
-            <img
-              src={require("../images/" +
-                imagesData[images[3]] +
-                ".svg")}
-              alt="weather icon"
-            />}
+            {images[3] !== undefined && (
+              <img
+                src={require("../images/" + imagesData[images[3]] + ".svg")}
+                alt="weather icon"
+              />
+            )}
             {days[3].data.instant.details.air_temperature}
           </h2>
         </div>
@@ -125,5 +124,3 @@ export default function FavoritesDays({ name, i }) {
     );
   }
 }
-
-
