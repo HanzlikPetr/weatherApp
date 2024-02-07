@@ -32,13 +32,42 @@ export default function FavoritesDays({ name, i }) {
       const dayEl = new Date(element.time);
       dayEl.setHours(dayEl.getHours() - delay);
 
-      if (dayEl.getDate() !== pom && dayEl.getHours() === 13 - delay) {
+      if (dayEl.getDate() !== pom && (dayEl.getHours() === 13 || dayEl.getHours() > 9)) {
         pom = dayEl.getDate();
         days.push(element);
       }
     });
-    
 
+    console.log(days)
+
+    const tryImages = (e) => {
+      try {
+        return e.data.next_1_hours.summary.symbol_code;
+      } catch (error) {
+        console.log(error);      
+      }
+    
+      if(typeof images1 !== "string" || typeof images2 !== "string" && typeof images3 !== "string"){
+        try {
+          return e.data.next_6_hours.summary.symbol_code;
+        } catch (error) {
+          console.log(error);      
+        }
+      }
+  
+      if(typeof images1 !== "string" && typeof images2 !== "string" && typeof images3 !== "string"){
+        try {
+          return e.data.next_12_hours.summary.symbol_code;
+        } catch (error) {
+          console.log(error);      
+        }
+      }
+    }
+  
+    const images = days.map(e => tryImages(e))
+    
+    
+    console.log(images)
     return (
       <button
         className={"button darker-" + theme}
@@ -53,39 +82,42 @@ export default function FavoritesDays({ name, i }) {
         </div>
         <div className="tepmerature">
           <h2>
-            <img
+            {images[0] !== undefined && <img
               src={require("../images/" +
-                imagesData[days[0].data.next_12_hours.summary.symbol_code] +
+                imagesData[images[0]] +
                 ".svg")}
               alt="weather icon"
-            />{" "}
+            />}
             {days[0].data.instant.details.air_temperature}
           </h2>
           <h2>
+          {images[1] !== undefined &&
             <img
               src={require("../images/" +
-                imagesData[days[1].data.next_12_hours.summary.symbol_code] +
+                imagesData[images[1]] +
                 ".svg")}
               alt="weather icon"
-            />{" "}
+            />}
             {days[1].data.instant.details.air_temperature}
           </h2>
           <h2>
+          {images[2] !== undefined &&
             <img
               src={require("../images/" +
-                imagesData[days[2].data.next_12_hours.summary.symbol_code] +
+                imagesData[images[2]] +
                 ".svg")}
               alt="weather icon"
-            />{" "}
+            />}
             {days[2].data.instant.details.air_temperature}
           </h2>
           <h2>
+          {images[3] !== undefined &&
             <img
               src={require("../images/" +
-                imagesData[days[3].data.next_12_hours.summary.symbol_code] +
+                imagesData[images[3]] +
                 ".svg")}
               alt="weather icon"
-            />{" "}
+            />}
             {days[3].data.instant.details.air_temperature}
           </h2>
         </div>
@@ -93,3 +125,5 @@ export default function FavoritesDays({ name, i }) {
     );
   }
 }
+
+

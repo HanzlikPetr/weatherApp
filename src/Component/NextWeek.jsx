@@ -24,7 +24,7 @@ export default function NextWeek({ temperature, time}) {
     const dayEl = new Date(element.time)
     dayEl.setHours(dayEl.getHours() - delay)
 
-    //console.log(dayEl.getHours())
+    console.log(dayEl.getHours())
     if(dayEl.getDate() !== pom && (dayEl.getHours() === 13 || dayEl.getHours() > 9)){
         pom = dayEl.getDate();
         days.push(element);
