@@ -26,3 +26,23 @@ form{
     padding: 3% 0;
 }
 
+.cities{
+    display: flex;
+    align-items: center;
+    justify-content: start;
+}
+
+.heart{
+    margin-right: 2%;
+    cursor: pointer;
+}
+
+.cities:first-child .button{
+    border-top-left-radius: 25px;
+    border-top-right-radius: 25px;
+}
+
+.cities:last-child .button{
+    border-bottom-left-radius: 25px;
+    border-bottom-right-radius: 25px;
+}

@@ -3,7 +3,7 @@ import { getDataWeather, getCity, getTime } from "../api";
 import imagesData from "../data";
 import "./style/FavoritesDays.css";
 
-export default function FavoritesDays({ name, i }) {
+export default function FavoritesDays({ name, i, removeCity}) {
   const [data, setData] = React.useState("");
   const [time, setTime] = React.useState("");
 
@@ -41,32 +41,38 @@ export default function FavoritesDays({ name, i }) {
       }
     });
 
-    console.log(days);
-
     const tryImages = (e) => {
       try {
         return e.data.next_1_hours.summary.symbol_code;
       } catch (error) {
-        console.log(error);
+        
       }
 
       try {
         return e.data.next_6_hours.summary.symbol_code;
       } catch (error) {
-        console.log(error);
+        
       }
 
       try {
         return e.data.next_12_hours.summary.symbol_code;
       } catch (error) {
-        console.log(error);
+        
       }
     };
 
     const images = days.map((e) => tryImages(e));
 
-    console.log(images);
     return (
+      <div className="cities">
+          <img
+            onClick={(e) => removeCity(e)}
+            key={i}
+            data-city={name}
+            src={require("../images/heart_833472.png")}
+            alt="heart"
+            className="heart"
+          />
       <button
         className={"button darker-" + theme}
         name="city"
@@ -75,11 +81,6 @@ export default function FavoritesDays({ name, i }) {
         key={i}
       >
         <div className="name">
-          <img
-            src={require("../images/heart_833472.png")}
-            alt="heart"
-            className="heart"
-          />
           {name}
         </div>
         <div className="tepmerature">
@@ -121,6 +122,7 @@ export default function FavoritesDays({ name, i }) {
           </h2>
         </div>
       </button>
+      </div>
     );
   }
 }

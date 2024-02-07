@@ -5,17 +5,21 @@ import "./Root.css"
 import FavoritesDays from "./Component/FavoritesDays";
 
 export default function Root() {
- 
-  //localStorage.clear()
-  defaultCities()
-  const favorites =Object.values({ ...localStorage });
+  const [favorites, setFavorites] = React.useState(Object.values({ ...localStorage }))
   
   const theme = localStorage.getItem("theme");
+
+  const removeCity = (e) => {
+    localStorage.removeItem(e.target.getAttribute('data-city'))
+    setFavorites(Object.values({ ...localStorage }))
+  }
+
+
   // eslint-disable-next-line array-callback-return
   const citie = favorites.map((e, i) => {    
-    if(e !== "dark") return <FavoritesDays name={e} i={i} />;
-  });
-  
+    if(e !== "dark") 
+      return <FavoritesDays name={e} i={i} removeCity={removeCity}/>
+    });
   
   return (
     <div className={theme ? "router " +  theme : "router"}>
@@ -25,10 +29,4 @@ export default function Root() {
       </Form>
     </div>
   );
-}
-
-const defaultCities = () => {
-  localStorage.setItem("Tokyo", "Tokyo")
-  localStorage.setItem("Prague", "Prague")
-  localStorage.setItem("Los Angeles", "Los Angeles")
 }
