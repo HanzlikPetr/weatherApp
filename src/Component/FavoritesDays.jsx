@@ -62,12 +62,10 @@ export default function FavoritesDays({ name, i, removeCity}) {
     };
 
     const images = days.map((e) => tryImages(e));
-
     return (
-      <div className="cities">
+      <div className="cities" key={name}>
           <img
             onClick={(e) => removeCity(e)}
-            key={i}
             data-city={name}
             src={require("../images/heart_833472.png")}
             alt="heart"

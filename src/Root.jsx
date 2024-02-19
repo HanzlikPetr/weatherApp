@@ -18,7 +18,7 @@ export default function Root() {
   // eslint-disable-next-line array-callback-return
   const citie = favorites.map((e, i) => {    
     if(e !== "dark") 
-      return <FavoritesDays name={e} i={i} removeCity={removeCity}/>
+      return <FavoritesDays name={e} i={i} removeCity={removeCity} key={e}/>
     });
   
   return (
