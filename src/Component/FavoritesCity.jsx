@@ -79,7 +79,7 @@ export default function FavoritesCity({ name, i, removeCity}) {
         key={i}
       >
         <div className="name">
-          {name}
+          <h2>{name}</h2>
         </div>
         <div className="tepmerature">
           <h2>

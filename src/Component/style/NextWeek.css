@@ -8,6 +8,10 @@
 }
 
 .days div{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     padding: 2%;
     border-radius: 15px;
     cursor: pointer;
@@ -36,3 +40,5 @@
     padding: 5% 0;
     font-size: 150%;
   }
+
+  
