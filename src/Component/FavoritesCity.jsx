@@ -3,7 +3,7 @@ import { getDataWeather, getCity, getTime } from "../api";
 import imagesData from "../data";
 import "./style/FavoritesDays.css";
 
-export default function FavoritesDays({ name, i, removeCity}) {
+export default function FavoritesCity({ name, i, removeCity}) {
   const [data, setData] = React.useState("");
   const [time, setTime] = React.useState("");
 
