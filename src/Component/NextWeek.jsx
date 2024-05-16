@@ -15,17 +15,17 @@ export default function NextWeek({ temperature, time}) {
   );
 
   const theme = useTasks();
-  const delay = Math.round((new Date()  - new Date(time.datetime)) / 86400000 * 24 - 1)
+  //const delay = Math.round((new Date()  - new Date(time.datetime)) / 86400000 * 24 - 1)
 
-  console.log(delay)
+  //console.log(delay)
 
   let pom = parseInt(time.day);
   temperature.timeseries.forEach(element => {
     const dayEl = new Date(element.time)
-    dayEl.setHours(dayEl.getHours() - delay)
+    dayEl.setHours(dayEl.getHours() /*- delay*/)
 
     console.log(dayEl.getHours())
-    if(dayEl.getDate() !== pom && (dayEl.getHours() === 13 || dayEl.getHours() > (delay > 0 ? 10 : 15))){
+    if(dayEl.getDate() !== pom && (dayEl.getHours() === 13 /*|| dayEl.getHours() > (delay > 0 ? 10 : 15)*/)){
         pom = dayEl.getDate();
         days.push(element);
     }
@@ -56,19 +56,19 @@ export default function NextWeek({ temperature, time}) {
   const dayCheck = new Date(days[indexDay].time).getDate();
 
   temperature.timeseries.forEach(e => {
-    const pom = new Date(e.time);
-    if(dayCheck === pom.getDate()){
+    const pom = new Date();
+    //if(dayCheck === pom.getDate()){
       dataTime.push(
         pom.getDate() + ". " + (pom.getMonth() + 1) + ". " + pom.getHours() + ":00"
       );
       dataDay.push(e.data.instant.details[type]);
-    }
+    //}
   })
 
   return (
     <>
       <div className="days">{day}</div>
-      <Details temperature={days[indexDay]} data={temperature} time={time}/>
+      <Details temperature={days[indexDay]} data={temperature} time={new Date()}/>
       <Chart theme={theme} name={name} changeType={changeType} dataDay={dataDay} dataTime={dataTime}/>
     </>
   );
@@ -126,10 +126,10 @@ function Details({ temperature, data, time }) {
   const temp = []
 
   data.timeseries.forEach(e => {   
-    const delay = Math.round((new Date()  - new Date(time.datetime)) / 86400000 * 24)
-    const pom = new Date(e.time)
-    pom.setHours(pom.getHours() - delay)
-    if(pom.getUTCDate() === new Date(temperature.time).getDate()){
+    //const delay = Math.round((new Date()  - new Date(time.datetime)) / 86400000 * 24)
+    const pom = new Date()
+    pom.setHours(pom.getHours() /*- delay*/)
+    //if(pom.getUTCDate() === new Date(temperature.time).getDate()){
       dataTime.push(
         pom.getUTCDate() + ". " + pom.getUTCMonth() + 1 + ". " + pom.getHours() + ":00"
       );
@@ -139,7 +139,7 @@ function Details({ temperature, data, time }) {
       humidity.push(e.data.instant.details.relative_humidity)
       cloudFraciton.push(e.data.instant.details.cloud_area_fraction)
       temp.push(e.data.instant.details.air_temperature)
-    }
+    //}
   })
 
   const hours = hoursArray.map((e, i) =>{

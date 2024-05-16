@@ -13,16 +13,15 @@ export default function Today({ temperature , theme, time}) {
   const dataHours = [];
   const dataTime = [];
 
-  const pom = new Date(time.datetime);
+  const pom = new Date();
   for (let i = 0; i < 24; i++) {
     pom.setHours(pom.getHours() + 1)
-    if(pom.getDate() === parseInt(time.day)){
+    
       dataTime.push(
         pom.getDate() + ". " + (pom.getMonth() + 1) + ". " + pom.getHours() + ":00"
       );
       dataDay.push(temperature.timeseries[i].data.instant.details[type]);
       dataHours.push(temperature.timeseries[i]);
-    }
   }
 
   let windDirection;

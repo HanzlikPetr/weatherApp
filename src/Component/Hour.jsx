@@ -4,6 +4,7 @@ import "./style/Hour.css"
 
 export default function Hour({data, time, id}){
     let images;
+    console.log(time)
 
     try{
       images = data.data.next_1_hours.summary.symbol_code;

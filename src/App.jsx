@@ -34,16 +34,17 @@ function App() {
   React.useEffect(() => {
     setLoading(0)
   
-    getTime(cityName).then(value => {
+    /*getTime(cityName).then(value => {
       setTime(value) 
       setLoading(1)
-    })
+    })*/
 
     setCityValue("")
     getCity(cityName).then(result => {
       getDataWeather(result[0].latitude, result[0].longitude).then(value => setData(value))
       setCity(result[0]);
-      setCityValue(result[0].name + ", " + result[0].country);      
+      setCityValue(result[0].name + ", " + result[0].country);     
+      setLoading(1) 
     })
   }, [cityName]);
 
